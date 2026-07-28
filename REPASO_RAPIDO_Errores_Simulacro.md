@@ -6,7 +6,10 @@ relacionado: "[[TRACKER_TUTOR]], [[GUIA_INTENSIVA_24_DIAS]], [[CHEATSHEET_KQL]]"
 
 # 🎴 Repaso Rápido — Errores del Simulacro (Practice Assessment oficial, 46%)
 
-> Léela en cualquier momento libre (fila del súper, antes de dormir, entre lecciones). Formato pregunta → respuesta, tapa la respuesta y contesta de memoria. Basada en los 24 errores reales de tu intento del 23-jul-2026.
+> Léela en cualquier momento libre (fila del súper, antes de dormir, entre lecciones). Formato pregunta → respuesta, tapa la respuesta y contesta de memoria. Basada en los 24 errores reales de tu intento del 23-jul-2026 más los fallos de quizzes diarios posteriores.
+
+> [!important] 🔔 Repaso obligatorio al inicio del Día 7
+> Antes de entrar al contenido nuevo, repasar **§1 (Workbook vs Playbook)** y **§10 (Alerta vs Incidente)**. Las dos conectan directo con el temario del Día 7 y las dos ya te costaron puntos: §1 dos fallos en el simulacro del 23-jul, §10 el fallo del quiz del Día 6 el 27-jul.
 
 ## 1. Workbook vs Playbook (te lo confundió el examen 2 veces — el más barato de arreglar)
 
@@ -62,12 +65,20 @@ relacionado: "[[TRACKER_TUTOR]], [[GUIA_INTENSIVA_24_DIAS]], [[CHEATSHEET_KQL]]"
 24. **MCP tool calls autenticando al tenant equivocado (cuenta guest)** → agregar el header **`x-mcp-client-tenant-id`** en la definición del servidor MCP. NO guardar un access token estático en `.vscode/mcp.json` (antipatrón de seguridad, no resuelve el problema de tenant).
 25. **MCP tool calls devolviendo resultados de un workspace equivocado en el data lake** → usar **`'default'` como `workspaceId`** en el prompt. NO usar la tool `list_sentinel_workspaces` para especificarlo manualmente cada vez.
 
+## 10. Alerta vs Incidente — qué tabla de Sentinel usar (fallo del quiz del Día 6, 27-jul-2026)
+
+26. **¿En qué tabla consultas los incidentes donde actuó Automatic attack disruption?** → **`SecurityIncident`**, campo `Title` (sufijo "(attack disruption)") o `Tags`. NO `SecurityAlert`/`AlertName`: Attack Disruption actúa a nivel de **incidente**, así que la marca vive en el incidente, no en una alerta suelta.
+27. **La regla que decide entre las dos tablas** → alerta individual que emite un producto (Defender, Entra ID Protection, MDC) → **`SecurityAlert`** · incidente de Sentinel (varias alertas correlacionadas) → **`SecurityIncident`**.
+28. **¿Cuántas filas tiene un incidente en `SecurityIncident`?** → **una por cada actualización** del incidente (cambio de severidad, owner, status), no una por incidente. Consultarla en crudo duplica incidentes. Para el estado final: `summarize arg_max(LastModifiedTime, *) by IncidentNumber`.
+
+> **Por qué falló:** no es hueco conceptual. En la P1 del mismo quiz acertó justamente porque identificó que Disruption opera a nivel de incidente (y por eso ignora el automation level del device group), y aun así en la P5 fue a la tabla de alertas. Interferencia probable con el ítem 5 de §3 (Entra ID Protection → `SecurityAlert`), que estaba fresco del repaso del 23-jul. El concepto está; el reflejo de tabla no.
+
 ---
 
 ## 🧠 Los 3 hábitos a corregir (resumen de resumen)
 
 1. **Lee el calificador del enunciado antes de mirar las opciones** — "minimize effort", "minimize impact", "before the alert", "least privilege" — casi siempre decide la respuesta.
-2. **No confundas herramientas con propósitos parecidos**: workbook≠playbook · Timeline≠Advanced Hunting≠Isolate · Purview Audit≠eDiscovery≠Sentinel.
+2. **No confundas herramientas con propósitos parecidos**: workbook≠playbook · Timeline≠Advanced Hunting≠Isolate · Purview Audit≠eDiscovery≠Sentinel · `SecurityAlert`≠`SecurityIncident`.
 3. **Desconfía de nombres de columna "razonables"** en las opciones de KQL — memoriza los reales (`ActionType`, `ReportId`, `SignInActivityId`) en vez de reconocer por lógica.
 
 *Fuente: revisión completa de tu intento del Practice Assessment oficial, 23-jul-2026 (score 46%). Ver detalle completo en [[TRACKER_TUTOR]]. Repite el simulacro en el Día 22 del plan — meta ≥80%.*
