@@ -1,0 +1,16 @@
+# --- Obsidian ---
+# Configuración local, plugins y estado de la UI: es específico de esta máquina
+.obsidian/
+.trash/
+
+# --- Sistema operativo ---
+desktop.ini
+Thumbs.db
+.DS_Store
+$RECYCLE.BIN/
+
+# --- Temporales / editores ---
+*.tmp
+*.bak
+*~
+.vscode/

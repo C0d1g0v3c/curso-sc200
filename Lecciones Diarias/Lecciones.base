@@ -1,0 +1,15 @@
+filters:
+  and:
+    - file.inFolder("certs en curso/SC-200/Lecciones Diarias")
+views:
+  - type: cards
+    name: Quests SC-200
+    order:
+      - file.name
+      - fecha
+      - dominio
+      - estado
+    sort:
+      - property: dia
+        direction: ASC
+    image: note.cover

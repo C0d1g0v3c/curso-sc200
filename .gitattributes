@@ -1,0 +1,11 @@
+# Normaliza finales de línea a LF dentro del repo: diffs limpios entre máquinas
+* text=auto eol=lf
+
+*.md    text eol=lf diff=markdown
+*.base  text eol=lf
+
+# Binarios (por si más adelante se añaden capturas al repo)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
