@@ -38,9 +38,10 @@ Tu [[PLAN_INTENSIVO_4SEMANAS]] y parte de [[00_INDEX_SC200]] usan el outline **v
 | Evento | Fecha |
 |---|---|
 | Inicio real del plan | Lun 7 julio 2026 |
-| **Reanclaje calendario (13 jul)** | **Hoy 13 jul = Día 4 · ayer 12 jul = Día 3** |
-| Fin del plan (Día 24) | Sáb 2 agosto 2026 |
-| Actualización del examen (temario nuevo) | 28 julio 2026 → cae en el **Día 19** |
+| **Reanclaje #2 del calendario (29 jul)** | **Hoy 29 jul = Día 7** — ver §2 |
+| Fin del plan (Día 24) | Lun 17 agosto 2026 |
+| Actualización del examen (temario nuevo) | **28 julio 2026 — YA VIGENTE** (verificado 29-jul) |
+| Colchón de refuerzo y simulacros | 18–28 agosto 2026 (11 días) |
 | **Examen agendado** | **Sáb 29 agosto 2026** (reprogramable +24 h) |
 | Voucher AI Skills Fest vence | 18 agosto 2026 |
 
@@ -123,6 +124,48 @@ Leyenda: ✅ [Cubierto] · 🟡 [Parcial] · ❌ [Falta]
 ## 📅 2. Cronograma de 24 días
 
 **Ritmo:** 4 h/día entre semana (2 h teoría + 2 h lab) · 5 h sáb/dom. Total ≈ 100 h.
+
+### 🔄 Reanclaje #2 del calendario (29 julio 2026) — CALENDARIO VIGENTE
+
+El reanclaje del 13-jul quedó obsoleto: por contenido se avanzó más despacio que por fecha. Situación real al 29-jul: **Días 1–6 impartidos y con quiz aprobado**; pendientes los **labs prácticos de los Días 4, 5 y 6**. Quedan **18 lecciones (Días 7–24) y 31 días hasta el examen** (Sáb 29-ago).
+
+**Diseño del nuevo calendario:** las lecciones corren consecutivas, con **tres días de recuperación (R1, R2, R3)** intercalados en fin de semana para saldar los labs atrasados sin acumular más deuda —que es exactamente lo que produjo el atraso anterior— y un **colchón final de 11 días** de refuerzo y simulacros. El colchón no es tiempo muerto: el Practice Assessment del 23-jul dio **46 %** contra una meta de 80 %, así que ese margen es necesario.
+
+| Fecha | Día del plan | Tema |
+|---|---|---|
+| **Mié 29 jul** | **Día 7** | Workbooks + SOC optimization + roles de Sentinel + notificaciones + alert tuning · **cierra Dominio 1** |
+| Jue 30 jul | Día 8 | Incidentes unificados + case management |
+| Vie 31 jul | Día 9 | Respuesta MDE: timeline, live response, evidence |
+| **Sáb 1 ago** | **R1 — Recuperación** | Labs atrasados de los **Días 4 y 5** (Scheduled rule + Anomalies + blade MITRE · ASR + advanced features + device group con automation level) |
+| Dom 2 ago | Día 10 | MDO (Threat Explorer, ZAP) + MDCA |
+| Lun 3 ago | Día 11 | Identidades: Entra ID Protection + MDI |
+| Mar 4 ago | Día 12 | Defender for Cloud workload protections |
+| Mié 5 ago | Día 13 | Purview Audit, eDiscovery, Graph activity logs + Copilot embebido · **cierra Dominio 2** |
+| Jue 6 ago | Día 14 | KQL total: repaso + drill "¿qué tabla uso para X?" |
+| Vie 7 ago | Día 15 | Advanced Hunting + custom detections + threat analytics + hunting graphs / Sentinel Graph |
+| **Sáb 8 ago** | **R2 — Recuperación** | Lab atrasado del **Día 6** (automation rule + playbook + permisos + Attack Disruption settings) **+ Simulacro #2** (Practice Assessment, sin presión de tiempo) |
+| Dom 9 ago | Día 16 | Hunting en Sentinel: queries, bookmarks, livestream, hunts |
+| Lun 10 ago | Día 17 | Data lake, KQL jobs, Summary rules, Notebooks + MCP Server |
+| Mar 11 ago | Día 18 | KQL avanzado gamificado · **cierra Dominio 3** |
+| Mié 12 ago | Día 19 | Lab integral end-to-end |
+| Jue 13 ago | Día 20 | Refuerzo dirigido sobre los fallos del Simulacro #2 |
+| Vie 14 ago | Día 21 | Repaso Dominio 1 + Dominio 2 completos |
+| **Sáb 15 ago** | **Día 22** | **Simulacro #3** — meta >80 % |
+| Dom 16 ago | Día 23 | Flashcards + trampas + logística (verificar cita Pearson VUE) |
+| Lun 17 ago | Día 24 | Repaso ligero + [exam sandbox](https://aka.ms/examdemo) · **fin del plan de 24 días** |
+| **Mar 18 ago** | **R3 — Colchón** | ⚠️ **Vence el voucher AI Skills Fest** — la cita ya está agendada, solo verificar |
+| Mié 19 – Vie 21 ago | Colchón | Refuerzo de las áreas <70 % del Simulacro #3 |
+| Sáb 22 ago | Colchón | **Simulacro #4** — meta >85 % |
+| Dom 23 – Mar 25 ago | Colchón | Repaso de los 5 temas de plataforma nuevos (data lake, KQL jobs, summary rules, Sentinel Graph, MCP Server) |
+| Mié 26 – Jue 27 ago | Colchón | Bloques débiles medidos: **MDE response** (timeline vs advanced hunting vs live response vs isolate vs investigation package) y **Purview Audit/eDiscovery** |
+| Vie 28 ago | Víspera | Solo flashcards y trampas. Nada nuevo. Dormir 7+ h |
+| **Sáb 29 ago** | **EXAMEN** | SC-200 |
+
+> [!warning] Punto de decisión
+> Si el **Simulacro #3 del 15-ago** queda por debajo del 70 %, la opción sensata es **reprogramar el examen** (gratis con más de 24 h de anticipación) hacia la primera semana de septiembre y usar el colchón para una segunda pasada completa de los dominios flojos. El límite duro del voucher para la **fecha de examen** es el **30 de octubre de 2026**, así que hay margen real.
+
+> [!note] Las columnas "Fecha" de las tablas de fases que siguen son del anclaje ANTIGUO
+> Se conservan por trazabilidad histórica. **La tabla de arriba es la vigente.** El detalle de objetivos y labs de cada día sigue siendo válido en las tablas de fase.
 
 ### Fase 1 — Dominio 1: Manage SecOps environment (Días 1–7, 40–45% del examen)
 
