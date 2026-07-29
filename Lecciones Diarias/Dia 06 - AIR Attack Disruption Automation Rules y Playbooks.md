@@ -140,44 +140,53 @@ SecurityIncident
 
 ## ✅ Quiz del día
 
-**P1.** Durante un ataque de ransomware operado por humanos, Defender for Endpoint contiene automáticamente un dispositivo y Defender for Identity deshabilita la cuenta de usuario asociada, en segundos y sin intervención humana. El device group de ese dispositivo tiene automation level "No automated response". ¿Qué explica esta respuesta?
-A) AIR ignoró el automation level configurado por error de configuración
-B) Automatic attack disruption actúa a nivel de incidente con alta confianza, independientemente del automation level del device group
-C) Fue un playbook disparado manualmente por un analista de Tier 3
-D) El automation level "No automated response" en realidad solo aplica a archivos, no a dispositivos ni usuarios
+> [!warning] ⚠️ Quiz corregido el 29-jul-2026
+> La versión original de este quiz tenía un defecto grave: **las 5 respuestas correctas eran la opción B**, y en las 5 preguntas **B era además la opción más larga y detallada**. Se podía sacar 5/5 eligiendo siempre la más larga, sin saber el tema — la misma fuga que se corrigió en los Días 1–3 (allí era negrita). Abajo está la versión corregida, con las correctas repartidas (clave C, A, D, A, C) y longitudes parejas. Es la versión que se administró en el chat el 27-jul, donde el resultado fue **4/5** (único fallo: P5).
 
-**P2.** "Regla A" (Order=1, trigger "When incident is created") cambia la severidad de un incidente de High a Low. "Regla B" (Order=2, mismo trigger) solo debe ejecutar su acción si la severidad es High o Critical. ¿Qué ocurre con Regla B sobre ese incidente?
-A) Regla B se ejecuta igual porque evalúa el estado original del incidente antes de cualquier cambio
-B) Regla B no se ejecuta porque evalúa el estado actual del incidente (ya en Low) después de que Regla A corrió primero
-C) Ambas reglas corren en paralelo así que el resultado es indeterminado
-D) El orden no importa porque las automation rules no se afectan entre sí
+**P1.** Durante un ataque de ransomware operado por humanos, Defender for Endpoint contiene automáticamente un dispositivo y Defender for Identity deshabilita la cuenta asociada, en segundos y sin intervención humana. El device group de ese dispositivo tiene automation level "No automated response". ¿Qué explica esta respuesta?
+A) AIR ignoró el automation level por un error de configuración del device group
+B) Fue un playbook de Logic Apps disparado a mano por un analista de Tier 3
+C) Attack disruption actúa a nivel de incidente, sin depender del automation level
+D) El nivel "No automated response" solo aplica a archivos, no a dispositivos ni cuentas
 
-**P3.** Un playbook aparece "en gris" (no seleccionable) al intentar agregarlo como acción "Run playbook" en una automation rule. ¿Cuál es la causa más probable y su solución?
-A) El playbook usa Logic Apps Standard, incompatible con automation rules
-B) Falta el rol Microsoft Sentinel Automation Contributor sobre el resource group donde vive el playbook; se otorga desde "Manage playbook permissions" con permisos Owner sobre ese RG
-C) El playbook no tiene entidades mapeadas
-D) Automation rules solo permiten llamar un playbook por workspace
+**P2.** "Regla A" (Order=1, trigger "When incident is created") cambia la severidad de un incidente de High a Low. "Regla B" (Order=2, mismo trigger) solo debe actuar si la severidad es High o Critical. ¿Qué ocurre con Regla B sobre ese incidente?
+A) No se ejecuta: evalúa el estado actual, ya en Low tras correr la Regla A
+B) Sí se ejecuta: evalúa el estado original del incidente, previo a todo cambio
+C) Corren en paralelo, así que el resultado es indeterminado en cada ejecución
+D) El orden es irrelevante: las automation rules no se afectan entre sí nunca
+
+**P3.** Un playbook aparece en gris (no seleccionable) al intentar agregarlo como acción "Run playbook" en una automation rule. ¿Cuál es la causa más probable?
+A) El playbook usa Logic Apps Standard, incompatible con las automation rules
+B) El playbook no tiene entidades mapeadas en su trigger de incidente
+C) Las automation rules solo permiten llamar a un playbook por workspace
+D) Falta Sentinel Automation Contributor sobre el resource group del playbook
 
 **P4.** ¿Qué describe correctamente el cambio de AIR que entra en vigor el 1 de septiembre de 2026?
-A) AIR desaparece de todos los productos Defender, incluyendo Defender for Office 365
-B) AIR deja de existir como experiencia de investigación separada y de poder activarse manualmente en Microsoft Defender for Endpoint; sus capacidades se integran en la protección antivirus por defecto. Defender for Office 365 no se ve afectado
-C) Attack Disruption reemplaza completamente a AIR en todos los escenarios y productos
-D) Todos los device groups pasan obligatoriamente a automation level Full sin opción de cambiarlo
+A) Deja de ser experiencia separada y manual en MDE; Defender for Office 365 sigue igual
+B) AIR desaparece de todos los productos Defender, incluido Defender for Office 365
+C) Attack disruption reemplaza por completo a AIR en todos los escenarios y productos
+D) Todos los device groups pasan a automation level Full sin opción de cambiarlo
 
-**P5.** Quieres consultar en KQL todos los incidentes de los últimos 30 días donde actuó Automatic attack disruption. ¿Qué tabla y qué campo revisas?
-A) SecurityAlert, campo AlertName
-B) SecurityIncident, campo Title (sufijo "(attack disruption)") o Tags
-C) DeviceEvents, campo ActionType con prefijo "Asr"
-D) IdentityLogonEvents, campo ActionType
+**P5.** Quieres consultar en KQL los incidentes de los últimos 30 días donde actuó Automatic attack disruption. ¿Qué tabla y qué campo revisas?
+A) `SecurityAlert`, campo `AlertName`
+B) `DeviceEvents`, campo `ActionType`
+C) `SecurityIncident`, campo `Title` o `Tags`
+D) `IdentityLogonEvents`, campo `ActionType`
 
 ### Respuestas explicadas
 
 > [!note]- Ver respuestas (spoiler)
-> **P1 — B.** Attack Disruption evalúa el incidente completo con altísima confianza y actúa sin importar el automation level del device group, que solo controla a AIR.
-> **P2 — B.** Las automation rules del mismo trigger corren secuencialmente según su Order, y cada regla evalúa el estado actual del incidente después de que las reglas previas ya actuaron — no el estado original.
-> **P3 — B.** El rol correcto es Microsoft Sentinel Automation Contributor sobre el resource group del playbook (no sobre el playbook individual ni la suscripción); se concede desde "Manage playbook permissions" y requiere Owner sobre ese RG.
-> **P4 — B.** El retiro de AIR como experiencia manual/separada aplica solo a Microsoft Defender for Endpoint; Defender for Office 365 sigue con AIR sin cambios.
-> **P5 — B.** Los incidentes viven en la tabla `SecurityIncident`; Attack Disruption se identifica por el sufijo "(attack disruption)" en el título o por el tag "Attack Disruption".
+> **P1 — C.** Attack disruption evalúa el **incidente completo** con confianza ≥99 % y actúa sin importar el automation level del device group, que solo gobierna a AIR. **A** inventa un error inexistente; **B** contradice el enunciado ("sin intervención humana"); **D** es falso: el automation level aplica a todas las acciones de AIR sobre ese device group.
+>
+> **P2 — A.** Las automation rules del **mismo trigger** corren **secuencialmente según su Order**, y cada una evalúa el **estado actual** del incidente, ya modificado por las anteriores. Por eso B queda fuera de condición. **B** invierte el comportamiento; **C** es falso (no hay paralelismo dentro de un mismo trigger); **D** contradice la existencia misma del campo Order.
+>
+> **P3 — D.** El permiso va sobre el **resource group** donde vive el playbook, no sobre el playbook individual ni la suscripción; se concede desde "Manage playbook permissions" y requiere ser **Owner** de ese RG. **A** es falso: Logic Apps Standard sí es compatible. **B** y **C** son restricciones inventadas.
+>
+> **P4 — A.** El retiro aplica **solo a Microsoft Defender for Endpoint**: AIR deja de existir ahí como experiencia de investigación separada y de poder activarse manualmente, quedando absorbido en la protección antivirus por defecto. **AIR en Defender for Office 365 sigue disponible sin cambios**, lo que descarta B. **C** confunde dos mecanismos distintos; **D** no forma parte del anuncio.
+>
+> **P5 — C.** ⚠️ **Este es el que fallaste el 27-jul** (respondiste A). Attack disruption opera a nivel de **incidente**, así que el registro vive en **`SecurityIncident`**: se identifica por el sufijo **"(attack disruption)"** en el campo `Title`, o por `Tags`. **A** es la trampa: `SecurityAlert` guarda alertas individuales de producto, no incidentes correlacionados. **B** y **D** son tablas de telemetría de endpoint e identidad, no de incidentes.
+>
+> **Regla a fijar:** *alerta individual de producto → `SecurityAlert` · incidente correlacionado de Sentinel → `SecurityIncident`.* Y `SecurityIncident` guarda **una fila por actualización** del incidente: usa `summarize arg_max(LastModifiedTime, *) by IncidentNumber` para quedarte con el estado final.
 
 ---
 

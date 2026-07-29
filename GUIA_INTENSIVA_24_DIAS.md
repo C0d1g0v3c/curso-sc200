@@ -51,34 +51,38 @@ Tu [[PLAN_INTENSIVO_4SEMANAS]] y parte de [[00_INDEX_SC200]] usan el outline **v
 
 Leyenda: ✅ [Cubierto] · 🟡 [Parcial] · ❌ [Falta]
 
-### Dominio 1 — Manage a security operations environment (40–45%)
+> [!success] Actualizado el 29-jul-2026 tras cerrar el Dominio 1
+> Los estados de abajo reflejan lo **realmente impartido en las lecciones diarias de los Días 1–7**, no solo lo que existía en las notas viejas del vault. La columna "Nota del vault" apunta ahora a la lección diaria cuando esta sustituye o amplía a la nota antigua. Verificado además contra el skills outline oficial **"as of July 28, 2026"**.
+
+### Dominio 1 — Manage a security operations environment (40–45%) — ✅ CERRADO
 
 | Skill oficial | Estado | Nota del vault | Hueco |
 |---|---|---|---|
-| Notificaciones de email/alertas en XDR (tuning, suppression, correlación) | 🟡 | [[Modulo_4_Unified_SecOps_Exposure]] §7 (suppression) | Falta: email notifications de incidents/actions/threat analytics |
-| MDE advanced features y rules settings | 🟡 | [[03_Semana3_Defender_XDR]] §1 | Falta detalle: EDR in block mode, tamper protection, web content filtering |
-| Custom data collection en MDE | ❌ | — | Tema nuevo, no existe nota |
-| Políticas de seguridad MDE + **ASR rules** | 🟡 | [[PLAN_INTENSIVO_4SEMANAS]] (mención) | Falta: modos audit/block/warn, exclusiones, GUIDs comunes |
-| AIR (automated investigation & response) | ✅ | [[CONCEPTOS_CLAVE]] §3.3.2 | Verificar verdicts y automation levels |
-| **Automatic attack disruption** | ❌ | — | Crítico: contain device/user, diferencias con AIR |
-| Device groups, permisos, automation levels | 🟡 | [[00_INDEX_SC200]] §1.2 | Falta práctica de RBAC de MDE |
-| Automation rules en Sentinel | 🟡 | [[PLAN_INTENSIVO_4SEMANAS]] S3-Jue | Falta: orden de ejecución, triggers update/create |
-| Playbooks (Logic Apps) | ✅ | [[PLAN_INTENSIVO_4SEMANAS]] S3-Jue, [[Modulo_3_Sentinel]] | — |
-| Roles de Sentinel | ✅ | [[04_Semana4_Simulacros]] (tabla RBAC) | — |
-| **Retención y tiers: Analytics, Data lake, XDR** | 🟡❗ | [[Modulo_4_Unified_SecOps_Exposure]] §8.1 | **Desactualizado**: tu nota usa Basic/Auxiliary; el modelo vigente es Analytics tier + **Data lake tier** + XDR default (30 días) |
-| Workbooks | 🟡 | [[PLAN_INTENSIVO_4SEMANAS]] S2-Vie | Falta crear uno custom |
-| **SOC optimization** | 🟡 | [[Modulo_5_Threat_Hunting]] §8 | Falta: recomendaciones de coverage/data value en el portal |
-| Connectors (selección por fuente) | ✅ | [[01_Semana1_Sentinel_Fundamentos]], [[PLAN_INTENSIVO_4SEMANAS]] S2 | — |
-| Windows Security Events via AMA + DCR | ✅ | [[PLAN_INTENSIVO_4SEMANAS]] S2-Mié, [[Modulo_4_Unified_SecOps_Exposure]] §8.2 | — |
-| **Windows Event Forwarding (WEF)** | ❌ | — | No existe nota |
-| Syslog/CEF via AMA | ✅ | [[PLAN_INTENSIVO_4SEMANAS]] S2-Mié | — |
-| Azure activities vía Azure Policy / diagnostic settings | 🟡 | [[PLAN_INTENSIVO_4SEMANAS]] S2-Mar | Falta: Azure Policy para forzar diagnostic settings a escala |
-| Ingestión de threat indicators (TI) | 🟡 | [[CONCEPTOS_CLAVE]] §2 | Falta: conector STIX/TAXII, upload API, tabla ThreatIntelligenceIndicator |
-| **Custom log tables** | ❌ | — | Tablas _CL, ingestion API, DCR-based custom logs |
-| Custom detection rules (Advanced Hunting XDR) | 🟡 | [[Modulo_1_Defender_XDR]] | Falta: frecuencias (incl. Continuous/NRT), acciones automáticas de la regla |
-| Analytics rules (scheduled, NRT, TI, ML) | ✅ | [[PLAN_INTENSIVO_4SEMANAS]] S3-Lun, [[Modulo_3_Sentinel]] | — |
-| Cobertura MITRE ATT&CK | ✅ | [[CONCEPTOS_CLAVE]] §1, [[Modulo_5_Threat_Hunting]] §2 | — |
-| **Anomalías en Sentinel (anomaly rules)** | 🟡 | [[Modulo_4_Unified_SecOps_Exposure]] §8.4 (UEBA) | Falta: reglas de anomalía customizables, tabla Anomalies |
+| Notificaciones de email en XDR (incidents, actions, threat analytics) | ✅ | [[Dia 07 - Workbooks SOC Optimization Roles de Sentinel y Notificaciones]] §4 | — |
+| Notificaciones de alertas en XDR (**tuning, suppression, correlación**) | ✅ | [[Dia 07 - Workbooks SOC Optimization Roles de Sentinel y Notificaciones]] §5 | — |
+| MDE advanced features y rules settings | ✅ | [[Dia 05 - Configuracion Avanzada de MDE ASR Rules Advanced Features Device Groups y Custom Data Collection]] | — |
+| Custom data collection en MDE | ✅ | [[Dia 05 - Configuracion Avanzada de MDE ASR Rules Advanced Features Device Groups y Custom Data Collection]] | Sigue en prerelease — vigilar cambios |
+| Políticas de seguridad MDE + **ASR rules** | ✅ | [[Dia 05 - Configuracion Avanzada de MDE ASR Rules Advanced Features Device Groups y Custom Data Collection]] | — |
+| AIR (automated investigation & response) | ✅❗ | [[Dia 06 - AIR Attack Disruption Automation Rules y Playbooks]] | ⚠️ **AIR se retira en MDE el 1-sep-2026** (no en MDO). El examen del 29-ago es ANTES del cambio → el modelo de automation levels sigue siendo examinable |
+| **Automatic attack disruption** | ✅ | [[Dia 06 - AIR Attack Disruption Automation Rules y Playbooks]] | — |
+| Device groups, permisos, automation levels | ✅ | [[Dia 05 - Configuracion Avanzada de MDE ASR Rules Advanced Features Device Groups y Custom Data Collection]] | — |
+| Automation rules en Sentinel | ✅ | [[Dia 06 - AIR Attack Disruption Automation Rules y Playbooks]] | — |
+| Playbooks (Logic Apps) | ✅ | [[Dia 06 - AIR Attack Disruption Automation Rules y Playbooks]] | — |
+| **Specify Microsoft Sentinel roles** | ✅ | [[Dia 07 - Workbooks SOC Optimization Roles de Sentinel y Notificaciones]] §3 | ❗ Este objetivo **no estaba asignado a ningún día** hasta el 29-jul. La tabla RBAC de [[04_Semana4_Simulacros]] está incompleta — usar la de la lección del Día 7 |
+| **Retención y tiers: Analytics, Data lake, XDR** | ✅ | [[Dia 01 - Arquitectura Sentinel y Tiers de Retencion]] | ⚠️ [[Modulo_4_Unified_SecOps_Exposure]] §8.1 sigue usando los nombres viejos **Basic/Auxiliary** — el modelo vigente es Analytics tier + **Data lake tier** + XDR default (30 días) |
+| Workbooks | ✅ | [[Dia 07 - Workbooks SOC Optimization Roles de Sentinel y Notificaciones]] §1 | — |
+| **SOC optimization** | ✅ | [[Dia 07 - Workbooks SOC Optimization Roles de Sentinel y Notificaciones]] §2 | Ampliado: además de data value y coverage/threat-based, existen **AI MITRE ATT&CK tagging (Preview)**, **risk-based (Preview)** y **similar organizations** |
+| Connectors (selección por fuente) | ✅ | [[Dia 02 - Ingestion 1 AMA DCR Windows Security Events y WEF]] | — |
+| Windows Security Events via AMA + DCR | ✅ | [[Dia 02 - Ingestion 1 AMA DCR Windows Security Events y WEF]] | — |
+| **Windows Event Forwarding (WEF)** | ✅ | [[Dia 02 - Ingestion 1 AMA DCR Windows Security Events y WEF]] | — |
+| Syslog/CEF via AMA | ✅ | [[Dia 03 - Ingestion 2 Syslog CEF Azure Activity TI y Tablas Custom]] | — |
+| Azure activities vía Azure Policy / diagnostic settings | ✅ | [[Dia 03 - Ingestion 2 Syslog CEF Azure Activity TI y Tablas Custom]] | — |
+| Ingestión de threat indicators (TI) | ✅ | [[Dia 03 - Ingestion 2 Syslog CEF Azure Activity TI y Tablas Custom]] | ⚠️ Nombre de tabla actualizado: el destino ya no es `ThreatIntelligenceIndicator` sino **`ThreatIntelIndicators` / `ThreatIntelObjects`** |
+| **Custom log tables** | ✅ | [[Dia 03 - Ingestion 2 Syslog CEF Azure Activity TI y Tablas Custom]] | — |
+| Custom detection rules (Advanced Hunting XDR) — crear y **gestionar** | 🟡 | [[Modulo_1_Defender_XDR]] | **Desplazado a propósito al Día 15** (requiere soltura previa con KQL). Ojo con las columnas obligatorias: `ReportId` + `Timestamp`, no `AlertId` |
+| Analytics rules (scheduled, NRT, TI, machine learning) | ✅ | [[Dia 04 - Detecciones Sentinel Analytics Rules y Anomalias]] | ⚠️ El outline **ya no nombra "Fusion"**, dice "machine learning" — estudiar el concepto por función, no por nombre comercial |
+| Cobertura MITRE ATT&CK | ✅ | [[Dia 04 - Detecciones Sentinel Analytics Rules y Anomalias]] | — |
+| **Anomalías en Sentinel (anomaly rules)** | ✅ | [[Dia 04 - Detecciones Sentinel Analytics Rules y Anomalias]] | — |
 
 ### Dominio 2 — Respond to security incidents (35–40%)
 
@@ -116,8 +120,12 @@ Leyenda: ✅ [Cubierto] · 🟡 [Parcial] · ❌ [Falta]
 | **Summary rule tables** | ❌ | — | Nuevo julio 2026 |
 | Notebooks + **Sentinel MCP Server** | 🟡 | [[Modulo_5_Threat_Hunting]] §5 (Notebooks/MSTICPy) | Falta MCP Server |
 
-> [!important] Resumen del gap analysis
-> **Tu base es sólida** en: Sentinel core (connectors, analytics rules, playbooks, RBAC), KQL, hunting clásico, Defender XDR (MDE/MDI/MDO/MDCA), MDC y Entra ID. **Los 12 temas ❌ son todos de las actualizaciones abril–julio 2026**: attack disruption, WEF, custom log tables, custom data collection MDE, case management, Purview Audit, eDiscovery, Graph activity logs, hunting graphs/blast radius, Sentinel Graph, KQL jobs/data lake, Summary rules y MCP Server. El plan de abajo los ataca con prioridad (Días 5–6, 13, 15, 17).
+> [!important] Resumen del gap analysis — actualizado 29-jul-2026
+> **Tu base es sólida** en: Sentinel core (connectors, analytics rules, playbooks, RBAC), KQL, hunting clásico, Defender XDR (MDE/MDI/MDO/MDCA), MDC y Entra ID.
+>
+> **Ya cerrados** (Días 1–7): attack disruption, WEF, custom log tables, custom data collection en MDE, roles de Sentinel, alert tuning/suppression/correlación, email notifications, workbooks y SOC optimization.
+>
+> **Siguen ❌ pendientes, todos de las actualizaciones abril–julio 2026:** case management (Día 8), Purview Audit, eDiscovery y Graph activity logs (Día 13), hunting graphs/blast radius y Sentinel Graph (Día 15), KQL jobs/data lake, Summary rules y MCP Server (Día 17). **Estos son exactamente los temas donde el simulacro del 23-jul concentró 7 de ~24 fallos** — no por hueco conceptual, sino porque el plan aún no los había impartido.
 
 ---
 
@@ -226,10 +234,12 @@ El reanclaje del 13-jul quedó obsoleto: por contenido se avanzó más despacio 
 - **Tiers de datos (modelo vigente 2026):** *Analytics tier* = query en tiempo real, retención interactiva 90 días incluida, para logs que alimentan detecciones. *Data lake tier* = bajo costo, retención hasta 12 años, se consulta con KQL jobs/notebooks (no en tiempo real). *XDR default* = 30 días en Advanced Hunting sin Sentinel. Regla mental: ¿alimenta alertas? → Analytics. ¿Solo compliance/hunting histórico? → Data lake.
 - **AMA + DCR:** todo pasa por Data Collection Rules; las *transformations* KQL filtran ANTES de la ingestión = ahorro de costos. **WEF** cuando necesitas centralizar eventos de equipos sin agente directo (colector → AMA).
 - **Analytics rules:** Scheduled (KQL periódico) · NRT (≤ ~1 min, con limitaciones: 1 tabla, sin joins complejos) · Microsoft security (promueve alertas de productos) · TI (matching con indicadores) · ML/Fusion (no editable) · **Anomalías** (customizables, alimentan la tabla `Anomalies`, no crean incidents por sí solas).
-- **ASR rules:** audit / block / warn; se despliegan por Intune/GPO; se auditan con KQL (abajo).
-- **AIR vs Attack disruption:** AIR investiga alertas y propone/ejecuta remediación de evidencia según *automation level* del device group (verdicts: Malicious / Suspicious / No threats found). **Attack disruption** actúa a nivel de ataque en curso con alta confianza: *contain device*, *disable user* — automático, aun con automation level bajo.
-- **Automation rules vs playbooks:** la automation rule es el orquestador (condiciones, orden, puede llamar playbooks); el playbook es la Logic App que ejecuta acciones. Trigger de incident requiere permiso **Microsoft Sentinel Automation Contributor** para Sentinel sobre el resource group del playbook.
-- **Roles Sentinel:** Reader (ver) · Responder (gestionar incidents, NO editar reglas) · Contributor (crear/editar) · Automation Contributor (ejecutar playbooks). Ver tabla en [[04_Semana4_Simulacros]].
+- **ASR rules:** audit / block / warn; se despliegan por Intune/GPO; se auditan con KQL (abajo). ⚠️ *Precisión añadida el 29-jul-2026:* **son DOS las reglas ASR que no soportan modo Warn** — *Block credential stealing from the Windows local security authority subsystem (LSASS)* y *Block Office applications from injecting code into other processes* — no una sola, como sugiere el flashcard genérico que circula en varias guías. Detalle completo en [[Dia 05 - Configuracion Avanzada de MDE ASR Rules Advanced Features Device Groups y Custom Data Collection]].
+- **Custom detections (vigilar):** Microsoft Learn ya recomienda por banner las **custom detections de Defender XDR** como "la mejor forma de crear reglas nuevas" hacia adelante, unificando Sentinel + XDR. El temario del 28-jul mantiene separados los objetivos de analytics rules (Sentinel) y custom detection rules (XDR), pero conviene dominar ambos y saber cuándo el escenario pide uno u otro.
+- **AIR vs Attack disruption:** AIR investiga alertas y propone/ejecuta remediación de evidencia según *automation level* del device group (verdicts: Malicious / Suspicious / No threats found). **Attack disruption** actúa a nivel de **incidente** (ataque en curso, confianza ≥99 %): contiene automáticamente, **aun con automation level bajo o nulo**, porque no depende del device group. ⚠️ **AIR se retira en Defender for Endpoint el 1-sep-2026** — deja de ser experiencia separada y de poder dispararse manualmente; queda absorbido en la protección antivirus por defecto. **Aplica solo a MDE: AIR en Defender for Office 365 sigue igual.** El examen del 29-ago es antes del cambio.
+- **Acciones de Attack disruption (más amplias de lo que se creía):** *Contain device* y *Contain IP* (MDE) · *Isolate device* (MDE — distinta de Contain) · *Disable user* (MDI) · *Contain user* (MDE) · *Revoke user session* y *Suspend user* (Entra ID) · *OAuth app compromise* (MDCA) · preview de *AWS IAM deny policy* y *Suspend user in Okta* vía conectores de Sentinel. Categoría hermana preventiva: **Predictive shielding** (Safeboot hardening, GPO hardening, Proactive user containment).
+- **Automation rules vs playbooks:** la automation rule es el orquestador (condiciones, orden, puede llamar playbooks); el playbook es la Logic App que ejecuta acciones. Para que una automation rule ejecute un playbook, la **cuenta de servicio de Sentinel** necesita permisos explícitos (**Microsoft Sentinel Automation Contributor**) sobre el **resource group** del playbook — no sobre el playbook individual. Consecuencia: una vez otorgados, **cualquier automation rule puede ejecutar cualquier playbook de ese resource group**.
+- **Roles Sentinel** (corregido 29-jul-2026 — la versión anterior de esta línea era incorrecta): Reader (ver) · **Responder** (todo lo de Reader + gestionar incidents; NO editar reglas) · **Contributor** (todo lo de Responder + crear/editar recursos e instalar soluciones) · **Playbook Operator** (listar, ver y **ejecutar** playbooks) · **Automation Contributor** (permite que *Sentinel* añada playbooks a automation rules — **NO se asigna a cuentas de usuario y NO sirve para ejecutar playbooks a mano**). Ojo: **ningún rol de Sentinel crea o edita playbooks** → eso es **Logic App Contributor**. Y **crear workbooks exige un rol de Sentinel + Workbook Contributor**. Tabla completa en [[Dia 07 - Workbooks SOC Optimization Roles de Sentinel y Notificaciones]] §3 (la tabla de [[04_Semana4_Simulacros]] está incompleta).
 
 📝 Notas del vault: [[01_Semana1_Sentinel_Fundamentos]], [[Modulo_3_Sentinel]], [[Modulo_4_Unified_SecOps_Exposure]] §7–8, [[00_INDEX_SC200]] §1.1–1.3
 
@@ -342,7 +352,7 @@ DeviceNetworkEvents
 3. **¿Qué feature deshabilita automáticamente a un usuario en un ataque BEC en curso?** → Automatic attack disruption (no AIR).
 4. **¿Rol mínimo de Sentinel para gestionar incidents sin editar analytics rules?** → Microsoft Sentinel Responder.
 5. **¿Dónde filtras eventos ANTES de pagar su ingestión?** → DCR transformation (KQL en el pipeline).
-6. **¿Regla NRT vs Scheduled: la diferencia clave?** → NRT corre ~cada minuto con limitaciones de query (una tabla, sin lookback largo); Scheduled es flexible con frecuencia ≥5 min.
+6. **¿Regla NRT vs Scheduled: la diferencia clave?** → *(corregido 29-jul-2026)* NRT corre **fijo cada 1 min con lookback de 1 min**, sin scheduling configurable, sin alert threshold configurable y con **tope de 30 alertas por corrida** (29 individuales + 1 resumen). Scheduled es flexible con frecuencia ≥5 min. ⚠️ **NRT ya SÍ puede referenciar múltiples tablas y watchlists** en la misma query — la restricción vieja de "una sola tabla, sin joins" quedó obsoleta.
 7. **¿Un bookmark crea un incident automáticamente?** → No. Es marcado manual; el analista lo promueve a incident o lo añade a uno existente.
 8. **¿Livestream genera alertas?** → No, solo notifica en sesión. Para alertas automáticas → analytics rule.
 9. **¿Qué tabla consultas para ver clics en URLs maliciosas de email?** → `UrlClickEvents`.
@@ -351,17 +361,29 @@ DeviceNetworkEvents
 12. **¿Qué son las summary rules?** → Agregaciones programadas de logs de alto volumen hacia tablas summary de bajo costo consultables con KQL.
 13. **¿Para qué se conecta un notebook al Sentinel MCP Server?** → Para que agentes IA/notebooks consulten el data lake con herramientas de lenguaje natural.
 14. **¿User risk High en Entra ID Protection: acción recomendada?** → Require password change + MFA (política de user risk en Conditional Access).
-15. **¿Contain device vs Isolate device?** → Contain lo aplica attack disruption a dispositivos NO onboardeados (bloqueo desde los demás endpoints); Isolate es acción manual/AIR sobre dispositivos onboardeados.
+15. **¿Contain device vs Isolate device?** → *(matizado 29-jul-2026)* **Contain device** bloquea la comunicación *desde* un dispositivo sospechoso aplicando una política en todos los dispositivos onboardeados a MDE; **Contain IP** hace lo mismo para una IP de un dispositivo NO onboardeado/no descubierto. **Isolate device** aísla el propio dispositivo comprometido, cortando casi todo el tráfico salvo servicios de seguridad esenciales. ⚠️ Ojo: **Attack disruption puede ejecutar las tres**, no solo Contain — Isolate no es exclusiva de la acción manual o de AIR.
+17. **¿Dónde se configura cada notificación por correo?** → Incidentes: Settings > **Microsoft Defender XDR** > Email notifications > Incidents. Vulnerabilidades: Settings > **Endpoints** > General > Email notifications > Vulnerabilities. Rutas distintas.
+18. **¿Las tres acciones de alert tuning?** → **Hide alert** (suprime e impide el incidente; **solo MDE**; el dato queda en `AlertInfo`/`AlertEvidence`) · **Resolve alert** (alerta e incidentes se generan ya resueltos) · **Set as behavior** (pasa a `BehaviorInfo`/`BehaviorEntities`; **no soportada en MDC ni MDO**).
+19. **¿Qué guarda un workbook al salvarlo?** → **Solo el JSON** con la definición. Ningún dato: las consultas se ejecutan contra el workspace al abrirlo.
+20. **¿Qué mira "data value optimization" de SOC optimization?** → **Solo tablas facturables con ingesta en los últimos 30 días**, y **nunca** recomienda cambios sobre tablas usadas por UEBA o por matching de threat intelligence.
 16. **¿Secure Score vs Exposure Score?** → Secure Score: más alto = mejor (postura). Exposure Score: más bajo = mejor (exposición). Ver [[Modulo_4_Unified_SecOps_Exposure]] §2.4.
 
 ### Errores comunes y trampas del examen
 
 - **Trampa de nombres viejos:** si estudiaste "Basic/Auxiliary logs", el examen ahora dice **data lake tier**. Igual: "Microsoft 365 Defender" → **Defender XDR**; "Azure AD" → **Entra ID**; MMA/OMS agent → **AMA**.
 - **Automation rule ≠ playbook:** si la pregunta pide "asignar owner y cambiar severidad automáticamente" → automation rule sola, sin Logic App. Si pide "aislar el dispositivo / postear en Teams" → playbook.
-- **Permisos de playbook:** el error clásico es que Sentinel no tiene el rol **Automation Contributor** sobre el RG del playbook → el playbook nunca corre.
-- **Fusion no se edita.** Si la pregunta pide "modificar la lógica de la detección multi-stage" → no puedes; creas reglas complementarias.
-- **NRT no soporta** múltiples tablas/joins complejos: si el escenario los requiere → Scheduled.
+- **Permisos de playbook:** el error clásico es que la **cuenta de servicio** de Sentinel no tiene **Automation Contributor** sobre el **resource group** del playbook (no sobre el playbook suelto) → el playbook nunca corre. Y para *crear/editar* playbooks hace falta **Logic App Contributor**; para *ejecutarlos a mano*, **Playbook Operator**. Ningún rol de Sentinel hace lo primero, y Contributor no hace lo segundo.
+- **Las asignaciones de rol son acumulativas.** Añadir un rol más restrictivo encima **no quita** permisos: hay que retirar la asignación.
+- **SIEM = Azure RBAC sobre el resource group. Data lake = roles de Microsoft Entra ID sobre el tenant** (Security operator / Security administrator / Global administrator para escribir y para gestionar jobs). No los mezcles.
+- **Fusion no se edita.** Si la pregunta pide "modificar la lógica de la detección multi-stage" → no puedes; creas reglas complementarias. *(Nota: el temario del 28-jul ya no dice "Fusion" sino "machine learning" — el concepto se pregunta igual, el nombre puede no aparecer.)*
+- ~~**NRT no soporta múltiples tablas/joins complejos**~~ → **CORREGIDO (29-jul-2026): NRT ya SÍ admite múltiples tablas y watchlists.** Lo que sigue sin poder es configurar scheduling, configurar alert threshold, y pasar de 30 alertas por corrida. Si el escenario pide frecuencia personalizada o umbral → Scheduled.
 - **Responder no puede** crear/editar reglas ni conectar data connectors. Contributor sí.
+- **Workbook ≠ playbook** (tu fallo repetido en el simulacro del 23-jul): "visualizar / reporte / dashboard / tendencia" → **workbook**. "Automatizar / ejecutar acción / notificar / crear ticket" → **playbook**. "Detectar / generar alerta" → **analytics rule**. "Buscar / hipótesis, sin alertas" → **hunting query**.
+- **Alert suppression NO funciona con custom detections.** Si una custom detection genera falsos positivos, se afina la propia detección — no se silencia con alert tuning.
+- **"Informational, expected activity" ≠ "False positive".** La primera es una alerta *correcta* sobre actividad *benigna* (red team, apps de confianza) que quieres seguir viendo; la segunda es una alerta *incorrecta* que no quieres volver a ver.
+- **Alerta individual de producto → `SecurityAlert`. Incidente correlacionado de Sentinel → `SecurityIncident`** (tu fallo en la P5 del quiz del Día 6). Y `SecurityIncident` guarda **una fila por actualización**: usa `summarize arg_max(LastModifiedTime, *) by IncidentNumber` para el estado final.
+- **Tabla de TI renombrada:** el destino de los indicadores ya no es `ThreatIntelligenceIndicator` sino **`ThreatIntelIndicators` / `ThreatIntelObjects`**.
+- **Entra ID Protection alerta por defecto solo en *High-risk detections only***. Si el escenario dice "el analista no ve alertas de riesgo medio" → revisar **Alert service settings**, no la analytics rule.
 - **"Investigar email ya entregado"** → Threat Explorer (P2), no el incident queue.
 - **eDiscovery vs Audit:** Audit = QUÉ HIZO el usuario (operaciones); Content search = QUÉ CONTENIDO existe/se movió. Escenario "encontrar todos los correos con el adjunto X" → Content search.
 - **KQL:** `summarize ... by bin(TimeGenerated, 1h)` para ventanas; `arg_max(TimeGenerated, *)` para "el más reciente por entidad"; `join kind=anti` para "los que NO aparecen". El examen ama preguntar el operador que falta en una query a medio escribir.
@@ -378,7 +400,7 @@ A) Analytics tier con retención 3 años · B) Data lake tier · C) Exportar a S
 A) `externaldata()` · B) `_GetWatchlist()` · C) `materialize()` · D) `toscalar()`
 
 **Q3.** Tu SOC recibe cientos de alertas de una herramienta admin legítima que ejecuta PowerShell programado en 5 servidores. ¿Acción correcta?
-A) Deshabilitar la analytics rule · B) Suppression rule con scope a esos 5 dispositivos y condición por proceso · C) Excluir los servidores de MDE · D) Cambiar automation level a No automation
+A) Deshabilitar la analytics rule · B) Regla de **alert tuning** (antes llamada *suppression*) con scope a esos 5 dispositivos y condición por proceso · C) Excluir los servidores de MDE · D) Cambiar automation level a No automation
 
 **Q4.** Durante un ataque de ransomware operado por humanos, Defender XDR deshabilitó automáticamente una cuenta de usuario on-prem. ¿Qué capability actuó?
 A) AIR · B) Automatic attack disruption · C) Conditional Access · D) MDI remediation

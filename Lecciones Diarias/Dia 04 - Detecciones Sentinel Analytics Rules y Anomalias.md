@@ -28,6 +28,16 @@ Sentinel no tiene un solo mecanismo de detección: tiene varios "motores" distin
 
 **b) NRT (Near-Real-Time, "casi en tiempo real").** Es un **subconjunto limitado** de las reglas Scheduled, pensado para amenazas donde cada minuto cuenta. Corre **una vez por minuto** con un retraso de solo 2 minutos (en vez de 5), y además consulta por el **momento de ingestión** del dato en vez de por su `TimeGenerated` (el momento en que el evento ocurrió en el origen) — esto es clave: así evita quedarse esperando datos que llegaron tarde. Las limitaciones que el examen pregunta: puede generar hasta **30 alertas de un solo evento** por ejecución; si la consulta devuelve más de 30 resultados en una corrida, genera 29 alertas individuales y una trigésima alerta que resume el resto. No tiene sentido usar NRT sobre una fuente de datos que tarda mucho en llegar al workspace (por ejemplo, una fuente con horas de retraso de ingestión) porque pierdes la ventaja de "casi en tiempo real" sin importar qué tan rápido corra la regla.
 
+> [!warning] ⚠️ Corrección aplicada el 29-jul-2026 (verificado en Microsoft Learn, `create-nrt-rules`)
+> Esta lección se escribió asumiendo la restricción **antigua** de que las reglas NRT solo podían consultar **una sola tabla y sin joins**. **Eso ya no es cierto: NRT SÍ puede referenciar múltiples tablas y watchlists en la misma query.**
+>
+> Los límites **reales** de NRT que sí siguen vigentes y son los examinables son:
+> - **Sin scheduling configurable** — corre fijo cada 1 minuto, con lookback de 1 minuto.
+> - **Sin alert threshold configurable.**
+> - **Tope de 30 alertas por corrida** (29 individuales + 1 de resumen).
+>
+> Regla de decisión corregida: si el escenario pide **frecuencia personalizada, un umbral de alerta o una ventana de lookback larga** → **Scheduled**. Si pide **la menor latencia posible** → **NRT**, aunque la query cruce varias tablas.
+
 **c) Microsoft Security (regla de seguridad de Microsoft).** No ejecuta una consulta KQL propia: simplemente **importa automáticamente** las alertas que ya generaron otros productos de seguridad de Microsoft conectados (Defender for Endpoint, Defender for Identity, Defender for Office 365, Defender for Cloud Apps, Entra ID Protection) y las convierte en incidentes de Sentinel. Es la manera en que la telemetría de todo el ecosistema Defender XDR termina también visible dentro de Sentinel como incidentes unificados.
 
 **d) TI Map (mapeo de Threat Intelligence).** Compara los indicadores de amenaza que ingeriste (las tablas `ThreatIntelIndicators` que vimos el Día 3 — IPs, dominios, hashes, URLs maliciosos conocidos) contra tu propia telemetría de red o de logs (por ejemplo `CommonSecurityLog` o `DeviceNetworkEvents`), y genera una alerta cuando encuentra una coincidencia exacta. Es la forma automática de responder "¿algún IOC (Indicator of Compromise, indicador de compromiso) conocido apareció en mi entorno?".
@@ -65,7 +75,7 @@ El panel distingue dos tipos de cobertura:
 
 *Escenario:* "El SOC (Security Operations Center) de Contoso necesita detectar, con la menor latencia posible, cuando una cuenta de servicio con privilegios elevados ejecuta un comando desde una IP fuera de la red corporativa. La fuente de datos (`SigninLogs`) se ingiere sin retrasos significativos. ¿Qué tipo de regla eligen?"
 
-*Razonamiento:* la prioridad explícita es "la menor latencia posible" y la fuente no tiene problemas de retraso de ingestión — exactamente el caso de uso de una regla **NRT**: corre cada minuto con solo 2 minutos de delay, en vez de los 5 minutos de una Scheduled. Si el escenario dijera que la consulta necesita cruzar (join) tres tablas distintas con lógica compleja, la respuesta cambiaría a Scheduled, porque NRT está limitada a consultas simples.
+*Razonamiento:* la prioridad explícita es "la menor latencia posible" y la fuente no tiene problemas de retraso de ingestión — exactamente el caso de uso de una regla **NRT**: corre cada minuto con solo 2 minutos de delay, en vez de los 5 minutos de una Scheduled. Si el escenario dijera que la regla necesita correr con una **frecuencia personalizada**, un **umbral de alerta configurable** o una **ventana de lookback larga**, la respuesta cambiaría a Scheduled — esos son los límites reales de NRT. *(Corregido el 29-jul-2026: cruzar varias tablas con `join` ya NO descarta NRT.)*
 
 ```kql
 // Regla NRT: cuenta de servicio con IP fuera del rango corporativo conocido
@@ -139,7 +149,7 @@ A) Simulated solo muestra las técnicas cubiertas por Fusion · B) Simulated es 
 ### Respuestas explicadas
 
 > [!note]- Ver respuestas (spoiler)
-> **P1 — D.** Joins complejos entre varias tablas y sin restricción de latencia es exactamente el terreno de Scheduled; NRT está limitada a consultas simples de baja complejidad.
+> **P1 — D.** *(Razonamiento corregido el 29-jul-2026.)* La respuesta sigue siendo Scheduled, pero **no** porque NRT no admita joins — sí los admite. Es Scheduled porque el escenario **no tiene restricción de latencia** y Scheduled es la única que te da **frecuencia, umbral de alerta y ventana de lookback configurables**. NRT corre fijo cada minuto con lookback de 1 minuto y sin umbral ajustable.
 > **P2 — A.** Las anomaly rules solo pueblan la tabla `Anomalies`; nunca generan alertas ni incidentes por sí mismas. Se necesita una regla adicional (Scheduled o NRT) que las consuma.
 > **P3 — B.** Fusion no se edita directamente, pero sí soporta exclusiones a nivel de escenario específico sin apagar el resto del motor de correlación.
 > **P4 — A.** Sentinel solo permite una copia customizada activa por cada anomaly rule original; un segundo intento de duplicar falla.

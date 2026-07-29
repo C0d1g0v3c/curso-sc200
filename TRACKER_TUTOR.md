@@ -107,3 +107,26 @@ El plan empezó el 7-jul pero se acumuló un **desfase de calendario, no de tema
 - 📝 Solo se edito la **seccion de cronograma y fechas clave** de `GUIA_INTENSIVA_24_DIAS.md`. Los mapeos de contenido por dominio de la guia **no se tocaron** (regla: no editar notas de estudio sin permiso explicito) — pendiente de confirmacion del alumno para corregirlos con los hallazgos de arriba.
 - ⏳ Pendiente: que el alumno responda el quiz de 5 preguntas del Dia 7 y haga el lab (workbook desde plantilla + workbook desde cero + auto refresh + revisar SOC optimization, IAM del resource group, notificaciones de incidentes y alert tuning).
 - 🗓️ Siguiente sesion: **Dia 8 (jue 30-jul)** — incidentes unificados + case management.
+
+## Sesión 2026-07-29 (bis) — Correcciones aplicadas con permiso explícito del alumno
+
+El alumno pidió "corrige todo con los cambios nuevos", lo que autoriza por fin a tocar las notas de estudio que llevaban semanas con correcciones anotadas pero sin aplicar. Aplicado:
+
+**En `GUIA_INTENSIVA_24_DIAS.md`:**
+- §1 Mapeo del Dominio 1 **reescrito completo**: el dominio queda marcado como CERRADO. Los estados ahora reflejan lo realmente impartido en los Días 1-7 y la columna de notas apunta a las lecciones diarias, no a las notas viejas del vault. Añadido el objetivo "Specify Microsoft Sentinel roles", que no figuraba.
+- §1 Resumen del gap analysis reescrito: separa lo ya cerrado (Dias 1-7) de lo que sigue pendiente (case management D8, Purview/eDiscovery/Graph D13, hunting graphs/Sentinel Graph D15, KQL jobs/summary rules/MCP D17) y señala que ahi se concentraron 7 de ~24 fallos del simulacro.
+- §3.1 **Linea de roles de Sentinel corregida** — la version anterior era ERRONEA: decia "Automation Contributor (ejecutar playbooks)". Automation Contributor NO se asigna a usuarios ni sirve para ejecutar playbooks; ejecutarlos es Playbook Operator, y crearlos/editarlos es Logic App Contributor. Añadido que crear workbooks exige rol de Sentinel + Workbook Contributor.
+- §3.1 AIR vs Attack disruption ampliado con el retiro del 1-sep-2026 (solo MDE) y la tabla completa de acciones de disruption + Predictive shielding.
+- §3.1 Permisos de playbook: precisado que es la **cuenta de servicio** sobre el **resource group**.
+- §3.1 ASR: precisado que son **DOS** las reglas sin modo Warn (LSASS y Office code injection). Añadida nota sobre el banner de custom detections.
+- §4 Flashcard 6 (NRT) **corregida**; añadidas flashcards 17-20 (rutas de notificaciones, 3 acciones de alert tuning, que guarda un workbook, alcance de data value optimization). Flashcard 15 (Contain vs Isolate) matizada: attack disruption puede ejecutar las tres acciones.
+- §4 Trampas: corregida la de NRT (tachada la afirmacion vieja), ampliada la de permisos de playbook, y añadidas 8 trampas nuevas (roles acumulativos, SIEM vs data lake RBAC, workbook vs playbook, alert tuning y custom detections, informational vs false positive, SecurityAlert vs SecurityIncident, tabla de TI renombrada, default de Entra ID Protection).
+- §5 Q3: terminologia actualizada de "suppression rule" a "alert tuning".
+
+**En `Dia 04 - Detecciones Sentinel Analytics Rules y Anomalias.md`:**
+- Corregido el dato obsoleto que se detecto el 16-jul y nunca se aplico: **las reglas NRT SI admiten multiples tablas y watchlists**. Añadido callout de correccion en la seccion b) NRT con los limites reales (sin scheduling configurable, sin alert threshold, tope de 30 alertas/corrida), y corregido el razonamiento del Ejemplo 1 y de la respuesta P1 del quiz. La respuesta P1 sigue siendo D, pero por el motivo correcto.
+
+**En `Dia 06 - AIR Attack Disruption Automation Rules y Playbooks.md`:**
+- **Quiz reescrito.** Defecto original detectado el 27-jul: las 5 correctas eran B y B era siempre la opcion mas larga → se sacaba 5/5 eligiendo la larga. Nueva clave **C, A, D, A, C** con longitudes parejas (es la version que se administro en el chat el 27-jul). Explicaciones ampliadas: ahora justifican por que cada distractor es incorrecto, no solo por que la correcta es correcta. En P5 se marca explicitamente que fue el fallo del alumno y se fija la regla SecurityAlert vs SecurityIncident.
+
+📌 **Queda pendiente de una pasada futura:** aplicar retroactivamente la regla de "siglas siempre con su forma completa entre parentesis" a las lecciones de los Dias 1-5, que se escribieron antes de que se fijara esa regla el 18-jul.
