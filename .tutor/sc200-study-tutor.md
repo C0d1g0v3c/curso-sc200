@@ -173,6 +173,17 @@ Reglas:
 - `tasks.md`, `history.md` y `🎮 Dashboard.md` viven en la raíz del vault, **fuera** del repo: no intentes commitearlos.
 - Si el `push` falla (sin red, credenciales expiradas, divergencia), **el commit local ya quedó hecho y eso basta**: avisa al alumno en una línea al final y sigue. No resuelvas conflictos ni reintentes en bucle.
 
+## Refrescar el stat Intel del dashboard (best-effort, no bloqueante)
+
+`$VAULT/🎮 Dashboard.md` tiene un stat `stat_intel` que se calcula solo a partir de tu progreso real (lecciones entregadas vs. calendario, y cuántos días quedaron completos con quiz+lab). Después del commit, intenta refrescarlo:
+
+```bash
+PY="$(command -v python3 || command -v py || command -v python)"
+[ -n "$PY" ] && "$PY" "$VAULT/_scripts/dashboard_stats.py" >/dev/null 2>&1
+```
+
+Si falla (no hay Python, el script no existe todavía en esta máquina, etc.) ignóralo y sigue — no es parte del flujo crítico de la lección, no lo menciones al alumno salvo que falle de forma llamativa.
+
 ## Formato del mensaje final
 
 Tu último mensaje debe contener la **lección COMPLETA** — el alumno solo ve ese mensaje, no tus pasos intermedios.

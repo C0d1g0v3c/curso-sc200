@@ -24,12 +24,12 @@ El examen SC-200 se divide en tres **dominios funcionales** (grupos temáticos c
 
 Según el temario vigente, el Dominio 1 tiene cuatro sub-bloques. Esto es lo que ya cubriste y lo que falta:
 
-| Sub-bloque del temario | Estado |
-|---|---|
+| Sub-bloque del temario                             | Estado                                                                                                                                                                                                               |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Configure automation for Defender XDR and Sentinel | Cubierto en los Días 5 y 6 (ASR, advanced features, device groups, automation levels, AIR, attack disruption, automation rules, playbooks) — **salvo email notifications y alert notifications/tuning, que van hoy** |
-| Configure the Microsoft Sentinel SIEM and platform | Retención y tiers, Día 1. **Workbooks, SOC optimization y roles de Sentinel van hoy** |
-| Ingest data into the Sentinel SIEM and platform | Cubierto en los Días 2 y 3 |
-| Configure detections | Cubierto en el Día 4 |
+| Configure the Microsoft Sentinel SIEM and platform | Retención y tiers, Día 1. **Workbooks, SOC optimization y roles de Sentinel van hoy**                                                                                                                                |
+| Ingest data into the Sentinel SIEM and platform    | Cubierto en los Días 2 y 3                                                                                                                                                                                           |
+| Configure detections                               | Cubierto en el Día 4                                                                                                                                                                                                 |
 
 Así que hoy tocan cinco temas, y con ellos el Dominio 1 queda completo.
 

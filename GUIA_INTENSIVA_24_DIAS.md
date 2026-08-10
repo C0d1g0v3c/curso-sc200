@@ -38,12 +38,13 @@ Tu [[PLAN_INTENSIVO_4SEMANAS]] y parte de [[00_INDEX_SC200]] usan el outline **v
 | Evento | Fecha |
 |---|---|
 | Inicio real del plan | Lun 7 julio 2026 |
-| **Reanclaje #2 del calendario (29 jul)** | **Hoy 29 jul = Día 7** — ver §2 |
-| Fin del plan (Día 24) | Lun 17 agosto 2026 |
+| **🔄 Reanclaje #3 (9 ago) — ver [[PLAN_MAESTRO_MULTITRACK]]** | **El cronograma de §2 quedó OBSOLETO** |
+| Fin del contenido (Día 24) | Mar 15 septiembre 2026 |
 | Actualización del examen (temario nuevo) | **28 julio 2026 — YA VIGENTE** (verificado 29-jul) |
-| Colchón de refuerzo y simulacros | 18–28 agosto 2026 (11 días) |
-| **Examen agendado** | **Sáb 29 agosto 2026** (reprogramable +24 h) |
-| Voucher AI Skills Fest vence | 18 agosto 2026 |
+| Colchón de simulacros y refuerzo | 17 sep – 2 oct 2026 |
+| **Examen agendado** | **Sáb 3 octubre 2026** (movido el 9-ago desde el 29-ago) |
+| Último sábado posible | **Sáb 24 octubre 2026** (muro del voucher: 30-oct) |
+| Voucher AI Skills Fest vence | 18 agosto 2026 (la cita ya está agendada — solo verificar) |
 
 ---
 
@@ -133,7 +134,17 @@ Leyenda: ✅ [Cubierto] · 🟡 [Parcial] · ❌ [Falta]
 
 **Ritmo:** 4 h/día entre semana (2 h teoría + 2 h lab) · 5 h sáb/dom. Total ≈ 100 h.
 
-### 🔄 Reanclaje #2 del calendario (29 julio 2026) — CALENDARIO VIGENTE
+> [!danger] ⛔ Este cronograma quedó OBSOLETO el 9 de agosto de 2026
+> El Reanclaje #2 asumía SC-200 como ocupación única. El semestre arrancó el **5 de agosto**
+> (4+ materias, incl. CCNA ITN) y el plan se rompió el mismo día: el Día 8 se impartió el
+> 5-ago y el Día 9 nunca ocurrió.
+>
+> **El calendario vigente está en [[PLAN_MAESTRO_MULTITRACK]]** — ritmo de 3 lecciones por
+> semana, examen movido al **sáb 3 de octubre de 2026**.
+>
+> La tabla de abajo se conserva solo por trazabilidad. **No la sigas.**
+
+### 🔄 Reanclaje #2 del calendario (29 julio 2026) — ⛔ SUPERADO POR EL REANCLAJE #3
 
 El reanclaje del 13-jul quedó obsoleto: por contenido se avanzó más despacio que por fecha. Situación real al 29-jul: **Días 1–6 impartidos y con quiz aprobado**; pendientes los **labs prácticos de los Días 4, 5 y 6**. Quedan **18 lecciones (Días 7–24) y 31 días hasta el examen** (Sáb 29-ago).
 
