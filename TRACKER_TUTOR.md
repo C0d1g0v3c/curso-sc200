@@ -157,3 +157,13 @@ El alumno pidió "corrige todo con los cambios nuevos", lo que autoriza por fin 
 - **Deuda de repo saldada:** el Dia 8 llevaba sin commitear desde su creacion el 5-ago, junto con cambios sin subir del Dia 7 y del tracker. Todo commiteado en esta sesion.
 - Siguiente sesion de contenido: **Dia 9 (mar 11-ago)** — Respuesta MDE: timeline, live response, evidence.
 - ✅ **Cita reprogramada y confirmada por el alumno el 9-ago-2026.** La fecha del examen deja de ser una decision y pasa a ser un hecho: **sab 3-oct-2026**. El calendario de [[PLAN_MAESTRO_MULTITRACK]] queda en firme.
+
+## Sesion 2026-08-09 (bis) — Quiz del Dia 7 respondido
+
+- **Resultado: 3/5** (1A 2B 3A 4C 5D · clave D,B,A,C,B). **No alcanza el umbral de 4/5.** Nota de contexto: el Dia 7 se impartio el 29-jul, asi que este quiz midio retencion a 11 dias, no comprension inmediata.
+- ✅ **P4 acertada — senal importante.** Permisos de playbook en otro resource group (cuenta de servicio sobre el resource group). Es **exactamente el fallo P24 del Simulacro 01 del 23-jul**, reforzado luego en el repaso acumulativo del Dia 8. El refuerzo dirigido funciono: gap medido y cerrado.
+- ✅ P2 (Hide alert como unica accion que impide el incidente conservando el dato en `AlertInfo`/`AlertEvidence`) y P3 (recomendacion de SOC optimization segun quien consume la tabla) correctas.
+- ❌ **P1 — eligio A ("los workbooks solo se crean desde el portal de Azure"). Correcta: D.** Crear/eliminar workbooks exige la **combinacion** de un rol de Sentinel **+ Workbook Contributor** sobre el resource group. El distractor A tiene tiron legitimo: si hay funciones exclusivas del portal de Azure (imprimir/guardar como PDF, algunas visualizaciones), pero crear workbooks no es una de ellas.
+- ❌ **P5 — eligio D (ruta Settings > Endpoints > General). Correcta: B.** Es la trampa incidentes-vs-vulnerabilidades que la propia leccion del Dia 7 marca: esa ruta es la de **notificaciones de vulnerabilidades**. Ademas **D contradice el enunciado**, que dice explicitamente que ya estaba mirando la ruta correcta.
+- 📌 **Patron detectado:** los dos fallos son de **ubicacion y de combinacion exacta**, no de funcion. Sabe que hace un workbook y sabe que existen las notificaciones; falla en "que rol adicional hace falta" y en "en que rama del portal vive esto". No es hueco conceptual, es hueco de mapa. Contrasta con P4, que tambien era de permisos y salio bien porque ya se habia reforzado explicitamente.
+- 🔁 **Accion:** volver a testear P1 y P5 el **sab 29-ago**, junto con el lab atrasado del Dia 7 (que es justamente donde se tocan IAM del resource group y las notificaciones en el portal). Re-test espaciado, no repaso inmediato.
