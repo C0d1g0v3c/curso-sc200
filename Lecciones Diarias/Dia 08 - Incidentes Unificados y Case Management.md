@@ -22,11 +22,11 @@ cover: ""
 
 El **Dominio 2** del examen, *Respond to security incidents* ("responder a incidentes de seguridad"), tiene tres sub-bloques según el temario vigente (verificado hoy contra el *study guide* oficial):
 
-| Sub-bloque | Qué agrupa | Cuándo lo ves |
-|---|---|---|
-| **Respond to alerts and incidents in Microsoft Defender XDR** | Investigar y remediar amenazas por producto (MDO, Purview, Defender for Cloud, MDCA, Entra ID, MDI, Sentinel), ataques complejos multi-etapa, agentic AI/Copilot embebido, y **case management** | **Hoy (Día 8, parcial)** y Días 9–13 |
-| **Respond to alerts and incidents in Microsoft Defender for Endpoint** | Device timeline, live response, collect investigation package, evidencia y entidades, attack disruption | Día 9 |
-| **Investigate Microsoft 365 activities to identify threats** | Purview Audit, eDiscovery, Microsoft Graph activity logs | Día 13 |
+| Sub-bloque                                                             | Qué agrupa                                                                                                                                                                                       | Cuándo lo ves                        |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------ |
+| **Respond to alerts and incidents in Microsoft Defender XDR**          | Investigar y remediar amenazas por producto (MDO, Purview, Defender for Cloud, MDCA, Entra ID, MDI, Sentinel), ataques complejos multi-etapa, agentic AI/Copilot embebido, y **case management** | **Hoy (Día 8, parcial)** y Días 9–13 |
+| **Respond to alerts and incidents in Microsoft Defender for Endpoint** | Device timeline, live response, collect investigation package, evidencia y entidades, attack disruption                                                                                          | Día 9                                |
+| **Investigate Microsoft 365 activities to identify threats**           | Purview Audit, eDiscovery, Microsoft Graph activity logs                                                                                                                                         | Día 13                               |
 
 Hoy me enfoco en dos objetivos concretos de la primera fila: la gestión del ciclo de vida de un **incidente** en el portal unificado de Microsoft Defender (que ya rozaste en los Días 6 y 7 cuando hablamos de tags y clasificación de alertas, pero que hoy completamos del todo a nivel de incidente), y **case management**, que es contenido enteramente nuevo. El resto de "investigar y remediar por producto" (MDO, Purview, MDCA, Entra ID, MDI, Sentinel) se reparte en los Días 10 a 13, porque cada producto necesita su propia sesión.
 
