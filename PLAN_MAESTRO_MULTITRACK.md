@@ -1,7 +1,7 @@
 ---
 tags: [sc-200, ccna, htb, plan, calendario, multitrack]
 creado: 2026-08-09
-actualizado: 2026-08-23
+actualizado: 2026-08-24
 examen_sc200: 2026-10-03
 examen_sc200_decision: confirmado definitivo el 23-ago-2026 — el alumno rechazó explícitamente la recomendación de moverlo al 24-oct (ver §7.2)
 estado: 🔴 Plan estricto — examen fijo en 3-oct, cero margen en sábados (ver §8)
@@ -229,9 +229,17 @@ La regla fijada en el Reanclaje #3 (§5) dice: *"si al terminar agosto quedan 2+
 
 ### 7.4 Canal nuevo: podcasts de NotebookLM en tiempos muertos
 
+> [!warning] Actualizado 24-ago-2026 — el orden de CONSUMO cambió, ver §7.7
+> Esta sección describe el diseño original (23-ago): podcast solo en tiempos muertos, como
+> refuerzo posterior a la lección ya leída. Un día después, el alumno pidió invertir el orden
+> de consumo **dentro del bloque dedicado**: escuchar primero, leer después. El razonamiento
+> de esta sección (por qué la producción sigue verificándose antes que nada) **sigue vigente
+> sin cambios** — es la base que hace seguro el nuevo diseño. Ver **§7.7** para la versión
+> vigente completa.
+
 El alumno propuso usar el **Audio Overview de Gemini NotebookLM** (genera un podcast conversacional a partir de las fuentes que subas) para consumir contenido en trayectos y tareas mecánicas, sin competir con los bloques dedicados. La herramienta ya existe y no hace falta nada nuevo — el diseño es solo cómo encaja en el ritmo.
 
-**Decisión de secuencia: la lección escrita con quiz SIEMPRE se genera primero. El podcast sale de ella, nunca al revés.**
+**Decisión de secuencia (original, 23-ago): la lección escrita con quiz SIEMPRE se genera primero. El podcast sale de ella, nunca al revés.**
 
 Razones, no es una preferencia arbitraria:
 
@@ -292,6 +300,36 @@ Dos decisiones tomadas hoy, en el mismo intercambio, que reconstruyen el resto d
 
 La combinación de ambas es lo que hace posible el calendario estricto de **§8**: la primera decisión quita margen de fecha, pero la segunda devuelve mucho más margen de *tiempo disponible por semana* del que se perdió — lo bastante para no solo cerrar el backlog, sino recuperar los **5 simulacros completos** (incluido el #5, que en la primera versión de este reanclaje se iba a cortar por falta de sábados) con espaciado semanal real.
 
+### 7.7 Ajuste 24-ago: el podcast pasa a ser el primer contacto dentro del bloque dedicado
+
+Un día después del Reanclaje #4, el alumno pidió invertir el orden de consumo: *"quiero que el objetivo sea intentar dedicar diario el bloque de estudio, en lugar de leer que sea escuchar el podcast pero que aun así genere la nota para poder repasar y entender todo super bien."*
+
+**Dos cosas separadas, para no confundirlas:**
+
+1. **Orden de producción (mío, sin cambios).** Yo sigo escribiendo y verificando la lección completa contra Microsoft Learn **antes** de que exista cualquier audio. Esto no se toca — es la razón #1 de §7.4 y sigue siendo la que blinda todo lo demás: el overview que el alumno escucha primero ya viene filtrado, no es un resumen crudo de documentación sin verificar.
+2. **Orden de consumo del alumno dentro del bloque dedicado (nuevo, invertido).** Antes: leer la lección completa → quiz → (más tarde, en tiempos muertos) escuchar el overview como refuerzo. Ahora: **escuchar el overview primero** (primer contacto, dentro del propio bloque) → **leer la lección completa** (repaso activo, donde se fija el detalle fino) → **quiz**.
+
+**Por qué esto es seguro invertirlo — y por qué NO lo era antes de esta sesión:** en el diseño original, la preocupación de la razón #1 de §7.4 era que un audio generado directo de fuentes crudas fuera la *primera* exposición del alumno a un dato todavía sin verificar. Como el orden de producción no cambia (la lección ya está escrita y verificada antes de que exista el audio), esa preocupación deja de aplicar cuando el audio pasa a ser el primer contacto del alumno — el audio sigue siendo un derivado de contenido ya verificado, solo que ahora el alumno lo consume antes que el texto en vez de después.
+
+**Lo que SÍ sigue siendo un riesgo, y por eso la lectura y el quiz no son opcionales:** un Audio Overview es un resumen conversacional — por diseño suaviza exactamente el tipo de detalle fino que este curso ya midió como el punto débil real: nombres exactos de tabla (`SecurityAlert` vs `SecurityIncident`), rutas exactas del portal (Settings → Endpoints → General vs Defender XDR → Email notifications), el rol adicional preciso (Workbook Contributor sobre el resource group), y sobre todo las tablas de decisión "el enunciado dice X → la respuesta es Y" que son el entregable de mayor valor de varias lecciones. Un podcast no puede transmitir una tabla con la misma precisión que leerla. Por eso:
+
+> [!important] Regla dura (reemplaza a la de §7.4): escuchar no cierra el día
+> El bloque dedicado tiene tres pasos, en este orden, y **los tres son obligatorios**:
+> 1. 🎧 Escuchar el overview de la lección (primer contacto, ~10-20 min)
+> 2. 📖 Leer la lección completa (repaso activo, foco en tablas de decisión y detalle fino)
+> 3. ✅ Responder el quiz
+>
+> Escuchar el overview **no sustituye** leer, y leer **no sustituye** el quiz. La tentación de
+> "ya lo escuché, ya me lo sé" es la misma trampa que ya costó puntos en el Simulacro 01
+> (confundir exposición con dominio) — solo que ahora, al vivir dentro del mismo bloque, es
+> más fácil caer en ella por inercia. El día se cierra con el quiz respondido, nunca antes.
+
+**¿Y el objetivo de que el bloque sea diario?** Aquí separo lo que sí cambio de lo que no, con números, para no prometer algo que el patrón ya demostrado no aguanta:
+
+- **Lo que SÍ cambio:** a partir de hoy, **todos los días** (no solo los que §8 marca con contenido nuevo) tienen un bloque de estudio, aunque cambie de tamaño. En los días de §8 sin lección nueva ("🟢 Colchón / repaso libre"), el bloque diario pasa a ser explícitamente: escuchar 1 overview (uno nuevo si hay pendiente, o uno de repaso acumulativo) + repaso corto de flashcards / [[REPASO_RAPIDO_Errores_Simulacro]] — **~20-30 min**, no 1-1.5h. Esto por fin le da un contenido concreto y honesto a las misiones diarias que ya existían en `tasks.md` ("Lección diaria SC-200", "Repaso de flashcards") en vez de dejarlas huérfanas los días sin contenido nuevo formal.
+- **Lo que NO cambio: las fechas de contenido nuevo del §8 se quedan igual — no comprimo el calendario para meter más lecciones nuevas por semana.** Razón, con la misma honestidad que la estimación de labs y el riesgo de los sábados al 100%: el atraso de este curso **nunca fue por lentitud de lectura** — fue por sesiones completas que no ocurrieron (el Día 9 se cayó por "tres entregas de universidad ese día", los dos sábados de labs se cayeron enteros dos semanas seguidas). Escuchar antes de leer ahorra minutos reales dentro del bloque (quizá 10-20% del tiempo de comprensión, porque ya se llega con el concepto familiar), pero no resuelve el problema que de verdad rompió el plan tres veces: la disponibilidad de la sesión completa. Comprimir el calendario apostando a ese ahorro de tiempo sería repetir el error de fondo de los tres reanclajes anteriores — planificar sobre lo que "debería" alcanzar en vez de lo que ya se demostró que alcanza.
+- **Revisión honesta, no promesa:** si después de 1-2 semanas el hábito diario con audio-primero se sostiene de verdad (evidencia real, no intención), ahí sí hay espacio para evaluar adelantar contenido — pero esa decisión se toma con datos encima de la mesa, igual que todas las anteriores de este documento, no se asume hoy.
+
 ---
 
 ## 8. Calendario estricto — camino al 3-oct-2026 (fijado 23-ago)
@@ -320,6 +358,13 @@ La diferencia no es "trabajar más horas por semana" — son casi las mismas ~7-
 - **Ya NO hace falta cortar ningún simulacro** (a diferencia de la primera versión de este reanclaje, escrita horas antes en la misma sesión) — con más días disponibles, los 5 caben con espaciado semanal real.
 
 ### 8.3 Calendario día por día
+
+> [!note] Actualizado 24-ago — "🟢 Colchón / repaso libre" ya no es un día vacío
+> Con el ajuste de §7.7, estos días **no se comprimen ni se eliminan** (ver el razonamiento
+> de por qué en esa sección), pero dejan de ser "nada obligatorio": ahora tienen su propio
+> bloque diario ligero (~20-30 min) de escuchar un overview + repaso corto de flashcards /
+> [[REPASO_RAPIDO_Errores_Simulacro]]. El calendario de fechas de abajo no cambia una sola
+> fecha respecto a la versión de ayer — solo cambia lo que significa un día sin lección nueva.
 
 #### Semana 1 (24–30 ago) — cerrar el bloque MDE/portales pendiente y arrancar Dominio 2
 
