@@ -695,6 +695,7 @@ Cinco preguntas. Responde antes de abrir el bloque de respuestas.
 
 ## 🔗 Notas relacionadas
 
+- [[Dia 07 - Repaso Rapido Workbooks SOC Optimization Roles y Notificaciones]] — repaso condensado en flashcards de esta lección (24-ago), con P1 y P5 del quiz marcadas como refuerzo dirigido; fuente lista para generar el Audio Overview de repaso en NotebookLM
 - [[Dia 06 - AIR Attack Disruption Automation Rules y Playbooks]] — automation rules y playbooks, cuyos permisos se detallan hoy
 - [[Dia 05 - Configuracion Avanzada de MDE ASR Rules Advanced Features Device Groups y Custom Data Collection]] — device groups, que son el ámbito de las notificaciones y del alert tuning
 - [[Dia 04 - Detecciones Sentinel Analytics Rules y Anomalias]] — analytics rules y MITRE, que es lo que SOC optimization evalúa
