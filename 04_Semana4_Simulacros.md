@@ -137,12 +137,20 @@ Entity trigger    → Al enriquecer una entidad específica
 
 ### 🟡 Roles de Sentinel (RBAC)
 
+> [!warning] Corregido 11-sep-2026 — tabla incompleta y con un error
+> Faltaba el rol **Playbook Operator**, y la fila de Responder decía que incluye playbooks — no es así. Tabla completa y matriz de tareas: [[Dia 07 - Workbooks SOC Optimization Roles de Sentinel y Notificaciones]] §3.2.
+
 ```
-Microsoft Sentinel Reader      → Solo ver (analistas Jr.)
-Microsoft Sentinel Responder   → Ver + gestionar incidents + playbooks
-Microsoft Sentinel Contributor → Todo excepto asignar roles
-Microsoft Sentinel Automation Contributor → Para playbooks automáticos
+Microsoft Sentinel Reader                 → Solo ver: datos, incidents, workbooks, recomendaciones
+Microsoft Sentinel Responder               → Reader + gestionar incidents (NO playbooks)
+Microsoft Sentinel Contributor              → Responder + instalar/actualizar soluciones + crear/editar recursos (NO ejecuta ni crea playbooks)
+Microsoft Sentinel Playbook Operator        → Listar, ver y EJECUTAR playbooks manualmente (no crearlos/editarlos)
+Microsoft Sentinel Automation Contributor   → Permite que Sentinel añada playbooks a automation rules (cuenta de servicio, no se asigna a usuarios)
 ```
+
+**Dos trampas de examen sobre esta tabla:**
+- **Ningún rol de Sentinel crea o edita playbooks** — eso es **Logic App Contributor** (rol de Azure Logic Apps, porque un playbook ES una Logic App).
+- **Contributor no ejecuta playbooks** — para eso hace falta Playbook Operator (o Logic App Contributor). El rol "más alto" de Sentinel no incluye automatización.
 
 ---
 

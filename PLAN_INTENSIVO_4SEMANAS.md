@@ -9,6 +9,9 @@ relacionado: "[[00_INDEX_SC200]], [[CHEATSHEET_KQL]], [[01_Semana1_Sentinel_Fund
 
 # 🗺️ Plan Intensivo 4 Semanas — SC-200: Microsoft Security Operations Analyst
 
+> [!danger] OBSOLETO — sustituido por [[PLAN_MAESTRO_MULTITRACK]]
+> Este plan usa el **outline viejo por producto** (Defender XDR 25–30% / Sentinel 50–55% / Purview 15–20%, estructura Semana 1 = XDR / Semanas 2-3 = Sentinel / Semana 4 = Purview) y el **Sentinel Training Lab abandonado**. Desde abril 2026 el examen se organiza por **funciones del analista** (3 dominios: Manage SecOps 40–45%, Respond 35–40%, Threat hunting 20–25%), y el 28-jul-2026 se sumaron KQL jobs, Sentinel Graph, data lake, MCP Server, case management. Calendario y contenido vigentes: [[PLAN_MAESTRO_MULTITRACK]] y las notas de `Lecciones Diarias/`. Mapeo completo temario↔lección: [[GUIA_INTENSIVA_24_DIAS]] §1. No usar esta nota para repasar ni como fuente de un podcast de NotebookLM — es histórico.
+
 > **Arquitecto Tutor:** Enfoque de Arquitecto de Ciberseguridad Microsoft  
 > **Voucher vence:** 18 agosto 2026 | **Examen límite:** 18 octubre 2026  
 > **Meta:** 700+/1000 — aprobación garantizada con este ritmo

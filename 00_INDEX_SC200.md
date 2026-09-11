@@ -9,6 +9,9 @@ relacionado: "[[00_MASTER_INDEX]], [[SIEM]], [[Conceptos Clave/SIEM]]"
 
 # 🛡️ SC-200 — Microsoft Security Operations Analyst
 
+> [!danger] Parcialmente obsoleto (11-sep-2026) — ver [[GUIA_INTENSIVA_24_DIAS]] y [[PLAN_MAESTRO_MULTITRACK]]
+> El listado de skills de §1 (organizado como "1.1 Configure settings... 1.3 Design and configure...") es el **outline viejo por producto**, de antes de abril 2026. El temario vigente son 3 dominios por función (Manage SecOps 40–45% / Respond 35–40% / Threat hunting 20–25%), actualizados otra vez el 28-jul-2026. El mapeo correcto temario↔lección está en [[GUIA_INTENSIVA_24_DIAS]] §1; el calendario vigente en [[PLAN_MAESTRO_MULTITRACK]].
+
 > **Idea central:** Certificación práctica de SOC que valida habilidades en Microsoft Sentinel, Defender XDR y respuesta a incidentes dentro del ecosistema Azure.
 
 ---

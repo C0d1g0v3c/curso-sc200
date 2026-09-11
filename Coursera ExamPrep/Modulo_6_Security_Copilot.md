@@ -9,14 +9,17 @@ relacionado: "[[00_INDEX_Coursera_SC200]], [[Modulo_1_Defender_XDR]], [[Modulo_3
 
 # 🤖 Módulo 6 — Microsoft Security Copilot
 
+> [!warning] Alcance recortado 11-sep-2026 — la actualización del temario del 28-jul-2026 saca a Security Copilot como producto a CONFIGURAR
+> Esta nota (jun-2026) cubre el Copilot **standalone**: SCUs, roles Copilot Owner/Contributor, gestión de plugins, usage monitoring. Todo eso **ya no es examinable** como tal. Lo que SÍ sigue en el temario es la **experiencia embebida** dentro de Defender XDR para investigar incidentes (incident summary, guided response, generar KQL desde lenguaje natural) — eso se cubre en **Día 13** del plan ([[PLAN_MAESTRO_MULTITRACK]]), no aquí. Usa esta nota solo como contexto de fondo de qué es Copilot, no como fuente de repaso de examen.
+
 > **Idea central:** Microsoft Security Copilot es un asistente de seguridad generativo (GenAI) que combina los modelos de OpenAI (GPT-4) con modelos propietarios de inteligencia de seguridad de Microsoft, diseñado para amplificar la capacidad del analista de SecOps: acelera investigaciones, genera KQL, interpreta scripts maliciosos y automatiza respuestas — todo dentro del contexto de los productos de seguridad de Microsoft que ya uses.
 
 ---
 
 ## 1. ¿Qué es Microsoft Security Copilot?
 
-> [!note] Por qué importa para el SC-200
-> El SC-200 evalúa si conoces las **dos experiencias** (embedded vs standalone), los **plugins**, los **promptbooks**, el modelo de **permisos RBAC** y las métricas de coste (**SCUs**). No basta con saber que "es una IA"; el examen profundiza en cómo se integra con Defender XDR y Sentinel.
+> [!note] Por qué importa para el SC-200 (desactualizado, ver banner de arriba)
+> El SC-200 evalúa si conoces las **dos experiencias** (embedded vs standalone), los **plugins**, los **promptbooks**, el modelo de **permisos RBAC** y las métricas de coste (**SCUs**). No basta con saber que "es una IA"; el examen profundiza en cómo se integra con Defender XDR y Sentinel. ⚠️ Esto describía el temario viejo — el temario vigente solo pregunta la experiencia embebida (ver Día 13).
 
 Microsoft Security Copilot es un producto de seguridad impulsado por IA generativa que:
 

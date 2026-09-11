@@ -326,30 +326,34 @@ La experiencia actualizada permite crear reglas de supresión con mayor granular
 
 ### 8.1 Log Tiers (Niveles de ingestion)
 
+> [!warning] Corregido 11-sep-2026 — nombres de tier obsoletos
+> Esta sección usaba el modelo viejo **Basic/Auxiliary Logs**. El temario vigente (actualización 28-jul-2026) ya no los nombra como tiers de ingestión separados: el modelo es **Analytics tier** (caliente) + **Data lake tier** (frío) + **XDR standalone** (30 días en Advanced Hunting si no hay Sentinel conectado). Detalle completo y ejercicios en [[Dia 01 - Arquitectura Sentinel y Tiers de Retencion]]. Tabla y diagrama de abajo actualizados a ese modelo.
+
 Esta es una de las áreas más examinadas en optimización de costes de Sentinel.
 
-| Tier | Nombre | Coste relativo | Retención | Búsqueda | Uso recomendado |
-|---|---|---|---|---|---|
-| **Analytics Logs** | Tier estándar | Alto | 90 días hot + configurable | Inmediata (KQL real-time) | Logs de alta prioridad: alertas, sign-ins, security events |
-| **Basic Logs** | Tier económico | ~80 % más barato | 8 días | On-demand (job-based, más lenta) | Logs verbosos de bajo valor: diagnósticos, verbose application logs |
-| **Auxiliary Logs** | Tier archivo | Mínimo | 30 días hot, hasta 12 años | On-demand | Compliance, retención a largo plazo, logs raramente consultados |
+| Tier | Retención | Búsqueda | Uso recomendado |
+|---|---|---|---|
+| **Analytics** (caliente) | 90 días por defecto, extensible a 2 años | Inmediata (KQL en tiempo real, alimenta analytics rules y workbooks) | Alertas y dashboards en vivo: sign-ins, security events, logs de alta prioridad |
+| **Data lake** (frío) | Hasta 12 años | KQL jobs o notebooks (no tiempo real); resultados promovibles a Analytics | Compliance, auditorías, hunting histórico, logs raramente consultados en vivo |
+
+**Comportamiento por defecto:** todo lo que entra a Analytics se espeja automáticamente al data lake durante la misma ventana de retención interactiva — no es una elección manual de "mover a tier barato".
+
+**XDR standalone (sin Sentinel conectado):** no es un tercer tier de Sentinel — es lo que pasa si solo tienes Defender XDR sin Sentinel. Los datos viven solo 30 días en Advanced Hunting.
 
 ```
   Decisión de tier por log:
-  
-  ¿El log genera alertas frecuentemente?
+
+  ¿Alimenta alertas o dashboards en vivo (lo necesitas al instante)?
        │
-       ├── Sí → Analytics Logs
+       ├── Sí → Analytics tier
        │
-       └── No → ¿Necesitas búsqueda inmediata (<1 min)?
+       └── No → ¿Solo por ley, auditorías o búsquedas históricas ocasionales?
                     │
-                    ├── Sí → Analytics Logs
-                    │
-                    └── No → ¿Solo para compliance/retención?
-                                 │
-                                 ├── Sí → Auxiliary Logs
-                                 └── No → Basic Logs
+                    └── Sí → Data lake tier (KQL jobs/notebooks, no tiempo real)
 ```
+
+> [!caution] Trampa de examen (no en la versión original de esta nota)
+> "Exportar a Storage Account" suena barato pero ahí el dato **ya no se puede consultar con KQL desde Sentinel** — casi nunca es la respuesta correcta cuando el enunciado pide retención + consulta ocasional. Esa respuesta es Data lake tier, no Storage Account ni extender Analytics (que es el tier caro).
 
 ### 8.2 Data Collection Rules (DCR)
 
@@ -368,7 +372,7 @@ source
 
 1. **Auditar fuentes de datos**: identificar cuáles tablas tienen mayor volumen y menor valor de alertas.
 2. **Usar DCR transformations** para filtrar eventos de bajo valor en el pipeline.
-3. **Asignar tiers correctos**: mover logs verbosos a Basic o Auxiliary.
+3. **Asignar tiers correctos**: mover logs verbosos sin uso en vivo al Data lake tier.
 4. **Configurar retention policies**: reducir retención hot para logs menos críticos.
 5. **Revisar connectors**: algunos conectores (ej. CEF genérico) ingerieren datos duplicados.
 
@@ -390,7 +394,7 @@ BehaviorAnalytics
 
 > [!tip] Para el examen
 > DCR transformation = modificar/filtrar datos ANTES de que entren al workspace = reducción de costes.
-> Basic Logs = búsqueda más lenta pero costo menor = ideal para logs verbosos de bajo valor.
+> Data lake tier = búsqueda más lenta (KQL jobs/notebooks) pero costo menor = ideal para logs de bajo valor en vivo.
 
 ---
 
