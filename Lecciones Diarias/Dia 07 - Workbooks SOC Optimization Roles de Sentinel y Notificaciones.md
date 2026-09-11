@@ -1,5 +1,5 @@
 ---
-tags: [sc-200, workbooks, soc-optimization, rbac, roles-sentinel, email-notifications, alert-tuning, sentinel, defender-xdr, leccion-diaria]
+tags: [sc-200, workbooks, soc-optimization, rbac, roles-sentinel, email-notifications, alert-tuning, sentinel, defender-xdr, asim, content-hub, leccion-diaria]
 dia: 7
 fecha: 2026-07-29
 dominio: "Dominio 1 — Manage a security operations environment (40-45%)"
@@ -12,7 +12,16 @@ cover: ""
 > [!info] Contexto
 > Día 7 del plan de [[GUIA_INTENSIVA_24_DIAS]] y **cierre de la Fase 1** (Dominio 1 — Manage a security operations environment, 40–45% del examen, el bloque que más pesa). Con esta lección terminas de cubrir todos los objetivos del Dominio 1 del temario oficial.
 >
-> ⚠️ **El temario oficial cambió ayer (28 de julio de 2026)** y hoy verifiqué el skills outline nuevo directamente en Microsoft Learn. La buena noticia: el cambio no invalida nada de lo que ya estudiaste. La noticia accionable: aparecen **dos objetivos del Dominio 1 que `GUIA_INTENSIVA_24_DIAS.md` no tenía asignados a ningún día** — "Specify Microsoft Sentinel roles" y "Configure alert notifications in Microsoft Defender XDR, including tuning, suppression, and correlation". Los dos son huecos reales, así que los incorporo hoy en esta lección junto a los temas que ya tocaban. El detalle completo del cambio de temario está en la sección §7 al final.
+> ⚠️ **El temario oficial cambió el 28 de julio de 2026** y lo verifiqué directamente en Microsoft Learn el día que se impartió esta lección. La buena noticia: el cambio no invalida nada de lo que ya estudiaste. La noticia accionable: aparecieron **dos objetivos del Dominio 1 que `GUIA_INTENSIVA_24_DIAS.md` no tenía asignados a ningún día** — "Specify Microsoft Sentinel roles" y "Configure alert notifications in Microsoft Defender XDR, including tuning, suppression, and correlation". Los dos son huecos reales, así que se incorporaron aquí junto a los temas que ya tocaban. El detalle completo del cambio de temario está en la sección §7 al final.
+
+> [!important] Reescritura 11-sep-2026 — refuerzo dirigido a tus dos puntos débiles medidos
+> Esta lección se reescribió en profundidad el 11 de septiembre de 2026, a 22 días del examen (3-oct-2026), con diagramas, imágenes oficiales y notas de concepto nuevas. Todo el contenido se re-verificó hoy contra Microsoft Learn (ver §9 al final) — **no se encontró ningún dato desactualizado en la versión anterior**, así que esta versión amplía y refuerza en lugar de corregir.
+>
+> El quiz de esta lección se **retesteó el 9-ago-2026 con 3/5** (por debajo del umbral de 4/5). Dos preguntas fallaron y quedaron marcadas como refuerzo dirigido, agendado para el sábado 29-ago junto con el lab atrasado:
+> - **P1 — permisos para crear un workbook.** Este punto se amplía explícitamente en §1.3 con un diagrama de decisión de roles.
+> - **P5 — ruta de notificaciones de incidentes vs. vulnerabilidades.** Este punto se amplía explícitamente en §4.3 con una tabla comparativa reforzada.
+>
+> Las preguntas y la clave de respuestas del quiz **no se tocaron** — solo se ampliaron las explicaciones dentro del bloque de respuestas.
 
 ---
 
@@ -25,7 +34,7 @@ El examen SC-200 se divide en tres **dominios funcionales** (grupos temáticos c
 Según el temario vigente, el Dominio 1 tiene cuatro sub-bloques. Esto es lo que ya cubriste y lo que falta:
 
 | Sub-bloque del temario                             | Estado                                                                                                                                                                                                               |
-| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Configure automation for Defender XDR and Sentinel | Cubierto en los Días 5 y 6 (ASR, advanced features, device groups, automation levels, AIR, attack disruption, automation rules, playbooks) — **salvo email notifications y alert notifications/tuning, que van hoy** |
 | Configure the Microsoft Sentinel SIEM and platform | Retención y tiers, Día 1. **Workbooks, SOC optimization y roles de Sentinel van hoy**                                                                                                                                |
 | Ingest data into the Sentinel SIEM and platform    | Cubierto en los Días 2 y 3                                                                                                                                                                                           |
@@ -33,30 +42,79 @@ Según el temario vigente, el Dominio 1 tiene cuatro sub-bloques. Esto es lo que
 
 Así que hoy tocan cinco temas, y con ellos el Dominio 1 queda completo.
 
+```mermaid
+mindmap
+  root((Día 7))
+    Workbooks
+      Azure Monitor Workbooks
+      Plantillas / Content hub
+      Parámetros
+      ASIM
+      Auto refresh
+    SOC optimization
+      Data value
+      Coverage-based
+        Threat-based
+        AI MITRE tagging
+        Risk-based
+      Similar organizations
+    Roles de Sentinel
+      Reader / Responder / Contributor
+      Playbook Operator
+      Automation Contributor
+      Logic App Contributor
+      Data lake RBAC
+    Notificaciones
+      Incidentes
+      Vulnerabilidades
+    Alert tuning
+      Hide alert
+      Resolve alert
+      Set as behavior
+      Correlación alerta-incidente
+```
+
 ---
 
 ### 1. Workbooks de Microsoft Sentinel
 
-#### 1.1 Qué es un workbook, desde cero
+#### 1.1 Definición desde cero
 
-Un **workbook** (literalmente "libro de trabajo") es un **informe visual interactivo**: una página compuesta por bloques de texto, gráficas, tablas y filtros, donde cada gráfica se alimenta de una consulta que se ejecuta contra tus datos en el momento en que abres la página. No es un archivo estático tipo captura de pantalla; cada vez que lo abres o lo refrescas, las consultas se vuelven a ejecutar y los números se actualizan.
+Un **workbook** (literalmente "libro de trabajo") es un **informe visual interactivo**: una página compuesta por bloques de texto, gráficas, tablas y filtros, donde cada gráfica se alimenta de una consulta que se ejecuta contra tus datos **en el momento en que abres la página**. No es un archivo estático tipo captura de pantalla; cada vez que lo abres o lo refrescas, las consultas se vuelven a ejecutar y los números se actualizan.
 
-Para entender qué son, conviene tener claros dos conceptos previos:
+Para entender qué son, conviene tener claros dos conceptos previos que ya trabajaste en días anteriores, pero que se repiten aquí completos porque son la base de todo lo que sigue:
 
-- **Log Analytics workspace** (espacio de trabajo de Log Analytics): el almacén donde Microsoft Sentinel guarda los datos que ingiere, organizado en **tablas** (por ejemplo `SecurityEvent`, `SigninLogs`, `AzureActivity`). Ya lo trabajaste desde el Día 1.
-- **KQL (Kusto Query Language)**: el lenguaje de consulta con el que se leen esas tablas. Un workbook, por debajo, no es más que un conjunto de consultas KQL con instrucciones de cómo dibujar cada resultado.
+- **Log Analytics workspace** (espacio de trabajo de Log Analytics): el almacén donde Microsoft Sentinel guarda los datos que ingiere, organizado en **tablas** (por ejemplo `SecurityEvent`, `SigninLogs`, `AzureActivity`). Es, en esencia, una base de datos gestionada por Azure Monitor a la que Sentinel se conecta.
+- **KQL (Kusto Query Language)**: el lenguaje de consulta con el que se leen esas tablas. Un workbook, por debajo, no es más que un conjunto de consultas KQL con instrucciones de cómo dibujar cada resultado (una tabla, una gráfica de líneas, un mapa, un contador).
+
+#### 1.2 Por qué existe / qué problema resuelve
+
+Sin un workbook, para saber "¿cuántos inicios de sesión fallidos tuvimos esta semana por país?" tendrías que abrir Log Analytics, escribir la consulta KQL a mano, y repetir eso cada vez que quisieras ver el dato actualizado. Un workbook **empaqueta esa consulta con su visualización y sus filtros en una página reutilizable**: la construyes una vez y la vuelves a abrir cuando la necesites, con los números siempre al día. Es la diferencia entre escribir una fórmula de Excel cada vez y tener una hoja de cálculo ya armada.
 
 Los workbooks de Microsoft Sentinel **están construidos sobre los Azure Monitor workbooks** — es decir, Sentinel no inventó un motor de reportes propio, sino que reutiliza el de Azure Monitor (el servicio general de monitoreo de Azure) y le añade tablas, gráficas y analítica específicas de seguridad. Por eso muchas opciones que verás dentro del editor son genéricas de Azure y no exclusivamente de seguridad.
 
-**Un dato que el examen usa mucho:** cada workbook es **un recurso de Azure más**, como una máquina virtual o una cuenta de almacenamiento. Eso tiene dos consecuencias directas: (a) se le puede aplicar **Azure RBAC** para controlar quién lo ve y quién lo edita, y (b) vive dentro de un **resource group** (grupo de recursos: el contenedor lógico de Azure donde se agrupan recursos relacionados).
+#### 1.3 Cómo funciona por dentro
 
-#### 1.2 Dónde se guardan y qué se guarda exactamente
+**Un dato que el examen usa mucho:** cada workbook es **un recurso de Azure más**, como una máquina virtual o una cuenta de almacenamiento. Eso tiene dos consecuencias directas: (a) se le puede aplicar **Azure RBAC** (Role-Based Access Control, control de acceso basado en roles — lo explicamos completo en §3) para controlar quién lo ve y quién lo edita, y (b) vive dentro de un **resource group** (grupo de recursos: el contenedor lógico de Azure donde se agrupan recursos relacionados).
 
 Los workbooks que ves dentro de Microsoft Sentinel se guardan **en el resource group del workspace de Sentinel**, y quedan etiquetados (*tagged*) con el workspace en el que se crearon. Eso es lo que hace que aparezcan en la vista de Sentinel y no mezclados con el resto de reportes de Azure Monitor de la suscripción.
 
 **Lo que se guarda es únicamente el archivo JSON del workbook — la definición: qué consultas corre, qué gráficas dibuja, qué filtros ofrece. No se guarda ningún dato.** Los datos siguen viviendo en las tablas del workspace y se leen en el momento de abrir el workbook. Esta es una pregunta clásica de examen: "¿guardar un workbook duplica los datos / consume almacenamiento de ingesta?" — no, solo guarda la definición.
 
-#### 1.3 Permisos necesarios (dato de examen)
+```mermaid
+flowchart TD
+    A["Log Analytics workspace<br/>(tablas: SecurityEvent, SigninLogs, AuditLogs...)"] -->|"consulta KQL"| B["Motor de Azure Monitor Workbooks"]
+    B --> C["Workbook<br/>(archivo JSON: consultas + visualizaciones + parámetros)"]
+    C -->|"vive en"| D["Resource group del workspace de Sentinel"]
+    D -->|"controla acceso"| E["Azure RBAC:<br/>Workbook Reader / Workbook Contributor"]
+    F["Parámetro TimeRange"] -.->|"inyecta valor en"| B
+    G["Content hub / plantilla instalada"] -->|"origen del workbook"| C
+    C -->|"Pin desde Log Analytics"| H["Tile personalizado"]
+```
+
+*Este diagrama es el mecanismo real: el workbook no almacena datos, solo la definición de la consulta; el dato vivo siempre viene del workspace en el momento de abrir la página.*
+
+#### 1.4 Dónde se configura y qué permiso hace falta
 
 | Qué quieres hacer | Qué necesitas |
 |---|---|
@@ -65,17 +123,34 @@ Los workbooks que ves dentro de Microsoft Sentinel se guardan **en el resource g
 | Crear o eliminar workbooks | **Microsoft Sentinel Contributor** (o un rol de Sentinel menor) **Y ADEMÁS Workbook Contributor** |
 | Usar una plantilla de workbook | Tener instalada la solución que la contiene, o instalar el workbook como elemento suelto desde el **Content hub** |
 
-Fíjate en la fila de "crear o eliminar": hace falta **la combinación de dos roles**. Tener solo Microsoft Sentinel Contributor no basta para crear un workbook — y esto es exactamente el tipo de matiz de mínimo privilegio que el examen convierte en pregunta. Volvemos sobre ello en §3.
+Fíjate en la fila de "crear o eliminar": hace falta **la combinación de dos roles**. Tener solo Microsoft Sentinel Contributor no basta para crear un workbook — y esto es exactamente el tipo de matiz de mínimo privilegio que el examen convierte en pregunta, y **el que falló tu retest del 9-ago (P1)**. Un analista puede tener el rol de Sentinel más alto que existe y seguir sin poder guardar un workbook nuevo si nadie le asignó también **Workbook Contributor** sobre ese mismo resource group.
 
-#### 1.4 Crear un workbook desde una plantilla
+```mermaid
+flowchart TD
+    Start(["¿Qué quiero hacer con un workbook?"]) --> Q1{"¿Solo ver / usar<br/>uno ya existente?"}
+    Q1 -->|"Sí"| R1["Workbook Reader<br/>sobre el resource group"]
+    Q1 -->|"No, quiero editarlo"| Q2{"¿Editar uno<br/>que ya existe?"}
+    Q2 -->|"Sí"| R2["Workbook Contributor<br/>sobre el resource group"]
+    Q2 -->|"No, quiero crear/eliminar"| R3["Microsoft Sentinel Contributor<br/>(o rol menor)<br/><b>Y ADEMÁS</b><br/>Workbook Contributor<br/>— los DOS, sobre el mismo resource group"]
+```
 
-Una **plantilla** (*template*) es un workbook prefabricado por Microsoft o por un proveedor, que ya trae las consultas y gráficas armadas para un escenario concreto (por ejemplo, "inicios de sesión de Microsoft Entra ID" o "tráfico de firewall Palo Alto"). Las plantillas llegan a tu entorno instalando soluciones desde el **Content hub** (el catálogo de contenido listo para usar de Sentinel).
+*Este es el diagrama que responde exactamente a la P1 que fallaste: "crear" no es un peldaño más alto de un único rol — es la combinación de dos roles distintos.*
+
+**Enlace a nota de concepto:** [[Conceptos/Workbook]]
+
+#### 1.5 Crear un workbook desde una plantilla
+
+Una **plantilla** (*template*) es un workbook prefabricado por Microsoft o por un proveedor, que ya trae las consultas y gráficas armadas para un escenario concreto (por ejemplo, "inicios de sesión de Microsoft Entra ID" o "tráfico de firewall Palo Alto"). Las plantillas llegan a tu entorno instalando soluciones desde el **Content hub** (el catálogo de contenido listo para usar de Sentinel — ver §1.9).
 
 El flujo es:
 
 1. En Microsoft Sentinel, ir a **Threat management > Workbooks**.
 2. Pestaña **Templates**: se listan las plantillas instaladas. Al seleccionar una, se abre su panel de detalles.
 3. **Revisar el campo `Required data types`** antes de guardar. Una plantilla puede requerir datos que tú no estás ingiriendo; si no tienes esa tabla, el workbook se abrirá vacío. Este campo te dice qué tipos de datos necesita.
+
+   ![Panel de detalles de una plantilla de workbook mostrando el campo "Required data types" en el portal de Defender](https://learn.microsoft.com/en-us/azure/sentinel/media/monitor-your-data/workbook-template-defender-portal.png)
+   *Fíjate en el campo de tipos de datos requeridos antes de guardar: si tu workspace no ingiere esas tablas, el workbook se abre vacío.*
+
 4. **Save** → eliges la ubicación (suscripción y resource group). Esto crea el recurso de Azure a partir de la plantilla. Recuerda: solo se guarda el JSON.
 5. **View saved workbook** para abrirlo, y **Edit** para personalizarlo.
 6. **Done Editing** para guardar los cambios.
@@ -85,19 +160,28 @@ Dos detalles importantes de este flujo:
 - **`Save as` clona el workbook.** Guardas una copia con otro nombre, bajo la misma suscripción y resource group. Los clones aparecen en la pestaña **My workbooks**.
 - **Las plantillas no se pueden eliminar; los workbooks guardados sí.** Puedes borrar tanto las plantillas guardadas (es decir, la instancia que creaste a partir de una plantilla) como los workbooks personalizados, desde la pestaña **My workbooks**. Borrar es **permanente y no se puede deshacer**: se pierde el recurso y todas tus personalizaciones. La plantilla original, en cambio, sigue disponible.
 
-#### 1.5 Crear un workbook desde cero
+#### 1.6 Crear un workbook desde cero
 
 1. **Threat management > Workbooks > Add workbook**.
 2. **Edit**, y añadir texto, consultas y **parámetros** según haga falta.
+
+   ![Un workbook nuevo en blanco, listo para agregar texto, consultas y parámetros](https://learn.microsoft.com/en-us/azure/sentinel/media/monitor-your-data/create-workbook.png)
+
 3. Al construir una consulta: **Data source = Logs**, **Resource type = Log Analytics**, y elegir uno o más workspaces.
 4. **Done editing** → **Save**, poniendo un nombre significativo y eligiendo suscripción y resource group.
 
 Un **parámetro** es un control interactivo (un desplegable, un selector de rango de tiempo, una caja de texto) cuyo valor se inyecta dentro de las consultas del workbook. El ejemplo más común es el filtro **TimeRange**: cambias el rango y todas las gráficas se recalculan para ese periodo. Los parámetros son lo que convierte un reporte estático en una herramienta interactiva.
 
 > [!tip] Recomendación oficial que aparece en la documentación
-> Al escribir la consulta de un workbook, Microsoft recomienda **usar un parser ASIM en lugar de una tabla nativa**. **ASIM (Advanced Security Information Model)** es un modelo de normalización: un conjunto de "traductores" (parsers) que presentan datos de fuentes distintas — varios fabricantes de firewall, por ejemplo — bajo un mismo esquema de columnas con nombres unificados. La ventaja: si mañana cambias de proveedor de firewall o añades uno nuevo, el workbook sigue funcionando sin reescribir la consulta, porque consulta el esquema normalizado y no la tabla específica de un producto.
+> Al escribir la consulta de un workbook, Microsoft recomienda **usar un parser ASIM en lugar de una tabla nativa**. **ASIM (Advanced Security Information Model)** es un modelo de normalización: un conjunto de "traductores" (parsers) que presentan datos de fuentes distintas — varios fabricantes de firewall, por ejemplo — bajo un mismo esquema de columnas con nombres unificados.
+>
+> **Por qué existe ASIM:** sin normalización, cada fabricante manda sus logs con nombres de columna distintos (uno llama `SourceIP`, otro `src_ip`, otro `Origen`). Una consulta escrita contra la tabla nativa de un fabricante concreto se rompe si cambias de proveedor o si añades un segundo firewall de otra marca. ASIM resuelve esto poniendo una capa intermedia: escribes la consulta una vez contra el esquema normalizado (por ejemplo `_Im_NetworkSession`), y el parser se encarga de traducir cada fuente real a ese esquema común.
+>
+> **Trampa de examen:** si el enunciado dice "la consulta debe seguir funcionando si mañana cambiamos o añadimos un fabricante de firewall", la respuesta correcta casi siempre es "usar un parser ASIM", no "escribir la consulta contra la tabla nativa del fabricante actual".
+>
+> 🔗 Nota de concepto: [[Conceptos/ASIM]]
 
-#### 1.6 Refresco de datos
+#### 1.7 Refresco de datos
 
 En la barra de herramientas del workbook tienes dos opciones:
 
@@ -110,29 +194,42 @@ Reglas del auto refresh que conviene memorizar:
 - El intervalo también se reinicia si refrescas manualmente.
 - **Se vuelve a desactivar cada vez que cierras el workbook**, para no dejarlo corriendo en segundo plano consumiendo recursos. Hay que reactivarlo la siguiente vez que lo abras.
 
-#### 1.7 Workbooks en el portal de Defender vs el portal de Azure
+**Trampa de examen:** un escenario típico describe a un analista que activó auto refresh ayer, cerró el workbook, y hoy se queja de que "dejó de actualizarse solo". No es un bug: es el comportamiento documentado. Hay que reactivarlo cada sesión.
+
+#### 1.8 Workbooks en el portal de Defender vs el portal de Azure
 
 Microsoft está unificando todo en el **portal de Microsoft Defender** (`security.microsoft.com`), y **después del 31 de marzo de 2027 Microsoft Sentinel dejará de estar disponible en el portal de Azure**. Mientras tanto conviven los dos, con estas diferencias en workbooks:
 
 - Algunas **visualizaciones solo se pueden ver en el portal de Azure**. Cuando trabajas desde el portal de Defender y te topas con una, aparece la opción **Open in Azure**.
 - **Imprimir un workbook o guardarlo como PDF solo existe en el portal de Azure** (menú de opciones a la derecha del título → **Print content** → ajustar o **Save as PDF**). Desde Defender hay que hacer *Open in Azure* primero.
+
+  ![Menú de opciones de un workbook mostrando cómo imprimir el contenido o guardarlo como PDF, disponible únicamente en el portal de Azure](https://learn.microsoft.com/en-us/azure/sentinel/media/monitor-your-data/print-workbook.png)
+
 - Si trabajas en el portal de Defender con un origen de datos **Azure Data Explorer**, hay que configurarlo y autenticarse contra él desde el portal de Defender.
 
-#### 1.8 Tiles (mosaicos) personalizados
+#### 1.9 Tiles (mosaicos) personalizados y Content hub
 
 Un **tile** es un bloque visual individual dentro del workbook. Para añadir uno personalizado, el flujo no empieza en el workbook sino en **Log Analytics**: creas ahí la visualización y luego seleccionas **Pin** (anclar) eligiendo el workbook de destino.
 
-#### 1.9 Recomendaciones de diseño de la documentación
+El **Content hub** es el catálogo centralizado de contenido de seguridad listo para usar dentro de Microsoft Sentinel: soluciones completas o piezas sueltas (workbooks, analytics rules, playbooks, parsers) empaquetadas por Microsoft o por terceros para un producto o escenario concreto (por ejemplo, "Palo Alto Networks" o "Microsoft Entra ID"). Existe porque construir cada detección y cada workbook desde cero para cada fabricante que conectas sería un desperdicio de tiempo — el Content hub te da el punto de partida ya armado, y tú lo personalizas. Se accede desde **Microsoft Sentinel > Content management > Content hub**.
+
+🔗 Nota de concepto: [[Conceptos/Content hub]]
+
+#### 1.10 Recomendaciones de diseño de la documentación
 
 - **Instala la solución de Microsoft Entra** si usas Microsoft Entra ID con Sentinel, y usa sus dos workbooks estrella: **Microsoft Entra sign-ins** (analiza inicios de sesión en el tiempo; fallos por aplicación, dispositivo y ubicación — atención a los inicios de sesión fallidos repetidos) y **Microsoft Entra audit logs** (actividad administrativa: altas y bajas de usuarios, creación y modificación de grupos).
 - **Instala la solución del firewall que uses** desde el Content hub para tener sus workbooks.
+
+  ![Ejemplo de workbook de Palo Alto que correlaciona tráfico de firewall con eventos de amenaza a lo largo de una semana](https://learn.microsoft.com/en-us/azure/sentinel/media/qs-get-visibility/palo-alto-week-query.png)
+  *Así se ve un workbook de una solución del Content hub una vez instalado: consultas y gráficas ya armadas para ese fabricante concreto.*
+
 - **Crea workbooks distintos por persona y por frecuencia**: uno para el administrador de red con los datos de firewall, otro para lo que revisas a diario, otro para lo que miras cada hora.
 
-#### 1.10 Dos consultas de ejemplo de la documentación
+#### 1.11 Dos consultas de ejemplo de la documentación
 
 Comparar el volumen de eventos de esta semana contra la anterior (útil para detectar caídas de ingesta o picos anómalos):
 
-```kusto
+```kql
 // week over week query
 SecurityEvent
 | where TimeGenerated > ago(14d)
@@ -142,7 +239,7 @@ SecurityEvent
 
 Cruzar dos fuentes: usuarios recién creados en Microsoft Entra ID que hicieron cambios de asignación de roles en Azure poco después (patrón clásico de escalada de privilegios):
 
-```kusto
+```kql
 AuditLogs
 | where OperationName == "Add user"
 | project AddedTime = TimeGenerated, user = tostring(TargetResources[0].userPrincipalName)
@@ -152,7 +249,13 @@ AuditLogs
 | project-away user1
 ```
 
-#### 1.11 ⚠️ Workbook vs playbook vs analytics rule vs hunting query
+#### 1.12 Ejemplo concreto de escenario SOC
+
+**Escenario:** el SOC quiere que la dirección reciba, cada lunes, una vista de la semana anterior con inicios de sesión fallidos por país y por aplicación, sin tener que pedirle a un analista que corra consultas a mano.
+
+**Solución:** se crea (o instala desde el Content hub) el workbook **Microsoft Entra sign-ins**, se le añade el parámetro **TimeRange** fijado a "Last 7 days" por defecto, y se comparte el enlace del workbook con dirección. Cada vez que alguien lo abre, las gráficas se recalculan solas contra los datos actuales — nadie tiene que volver a escribir la consulta.
+
+#### 1.13 ⚠️ Workbook vs playbook vs analytics rule vs hunting query
 
 Esta es **tu debilidad medida**: en el practice assessment del 23 de julio fallaste dos preguntas por confundir workbook con playbook. La distinción es de propósito, y el examen la plantea siempre con un verbo delator en el enunciado:
 
@@ -165,34 +268,52 @@ Esta es **tu debilidad medida**: en el practice assessment del 23 de julio falla
 
 Regla mental corta: **workbook = ojos. Playbook = manos. Analytics rule = alarma. Hunting query = linterna.**
 
+```mermaid
+flowchart TD
+    Start(["¿Qué palabra usa el enunciado?"]) --> Q1{"¿'Visualizar',<br/>'reporte', 'dashboard'?"}
+    Q1 -->|"Sí"| R1["Workbook<br/>(ojos)"]
+    Q1 -->|"No"| Q2{"¿'Automatizar',<br/>'ejecutar acción',<br/>'notificar/bloquear'?"}
+    Q2 -->|"Sí"| R2["Playbook<br/>(manos)"]
+    Q2 -->|"No"| Q3{"¿'Detectar',<br/>'generar alerta/incidente'?"}
+    Q3 -->|"Sí"| R3["Analytics rule<br/>(alarma)"]
+    Q3 -->|"No"| Q4{"¿'Buscar',<br/>'investigar hipótesis',<br/>sin generar alertas?"}
+    Q4 -->|"Sí"| R4["Hunting query<br/>(linterna)"]
+```
+
 ---
 
 ### 2. SOC optimization
 
-#### 2.1 Qué es y para qué sirve
+#### 2.1 Definición desde cero
 
-**SOC** son las siglas de **Security Operations Center** — el centro de operaciones de seguridad, es decir, el equipo y el conjunto de herramientas que vigilan y responden a amenazas en una organización.
+**SOC** son las siglas de **Security Operations Center** (centro de operaciones de seguridad) — el equipo y el conjunto de herramientas que vigilan y responden a amenazas en una organización.
 
-**SOC optimization** es una funcionalidad de Microsoft Sentinel que te da **recomendaciones accionables** sobre tu workspace, con dos objetivos que tiran en direcciones opuestas y hay que equilibrar:
+**SOC optimization** es una funcionalidad de Microsoft Sentinel que **analiza automáticamente tu workspace y te entrega una lista de recomendaciones accionables**, sin que un humano tenga que revisar tabla por tabla y regla por regla a mano.
+
+#### 2.2 Por qué existe
+
+SOC optimization persigue dos objetivos que tiran en direcciones opuestas y que hay que equilibrar:
 
 1. **Cerrar huecos de cobertura** frente a amenazas concretas (te falta una detección o una fuente de datos).
 2. **Apretar la ingesta de datos que no aporta valor de seguridad** (estás pagando por almacenar datos que ninguna detección usa).
 
-La idea de fondo: sin SOC optimization, ese análisis lo tendría que hacer un humano a mano, revisando tabla por tabla y regla por regla. La herramienta lo hace por ti automáticamente.
+Sin esta herramienta, ese análisis lo tendría que hacer un ingeniero de seguridad revisando manualmente decenas de tablas y reglas — un trabajo lento y propenso a pasar cosas por alto. SOC optimization lo automatiza y te da la lista priorizada.
 
-#### 2.2 Tipos de recomendación (memoriza esta clasificación)
+#### 2.3 Cómo funciona por dentro: los cuatro tipos de recomendación
 
+```mermaid
+flowchart TD
+    SOC["SOC optimization"] --> DV["Data value recommendations<br/>(mejora coste/valor de tus datos)"]
+    SOC --> CB["Coverage-based recommendations<br/>(cierran huecos de cobertura)"]
+    SOC --> SO["Similar organizations recommendations<br/>(qué ingieren orgs parecidas a la tuya)"]
+    CB --> TB["Threat-based<br/>(razona desde el ataque)"]
+    CB --> AI["AI MITRE ATT&CK tagging (Preview)<br/>(etiqueta detecciones sin táctica/técnica)"]
+    CB --> RB["Risk-based (Preview)<br/>(razona desde el daño de negocio)"]
 ```
-SOC optimization
-├── Data value recommendations           → mejora el uso/coste de tus datos
-├── Coverage-based recommendations       → cierra huecos de cobertura
-│   ├── Threat-based recommendations
-│   ├── AI MITRE ATT&CK tagging (Preview)
-│   └── Risk-based recommendations (Preview)
-└── Similar organizations recommendations → qué ingieren organizaciones parecidas a la tuya
-```
 
-#### 2.3 Data value recommendations (optimización de valor del dato)
+**Dónde se configura / rol necesario:** SOC optimization se ve dentro de Microsoft Sentinel, en la sección **SOC optimization** del menú lateral (tanto en el portal de Azure como en el de Defender). Para verla basta con un rol de lectura (**Microsoft Sentinel Reader**); para aplicar una recomendación (activar una plantilla de analytics rule, conectar una fuente de datos) hace falta el rol correspondiente a esa acción — por ejemplo, **Microsoft Sentinel Contributor** para activar plantillas.
+
+#### 2.4 Data value recommendations (optimización de valor del dato)
 
 Buscan mejorar la relación **coste / valor de seguridad**. Detectan conectores de datos y tablas **poco o nada usados** y sugieren o bien reducir su coste, o bien aumentar su valor.
 
@@ -206,12 +327,12 @@ Buscan mejorar la relación **coste / valor de seguridad**. Detectan conectores 
 
 **Excepción que aparece en la documentación:** si una tabla está elegida para **UEBA** (*User and Entity Behavior Analytics*, el motor de análisis de comportamiento de usuarios y entidades) o para una **regla de analytics de matching de threat intelligence**, SOC optimization **no recomienda ningún cambio de ingesta** sobre ella — aunque parezca poco usada, está alimentando esos motores.
 
-**Unused columns (Preview).** SOC optimization también detecta **columnas** sin uso dentro de tablas que sí usas. La única que aparece documentada hoy: la columna **`ConditionalAccessPolicies`** en las tablas **`SigninLogs`** o **`AADNonInteractiveUserSignInLogs`**, con la acción de dejar de ingerir esa columna.
+**Unused columns (Preview).** SOC optimization también detecta **columnas** sin uso dentro de tablas que sí usas. La única que aparece documentada hoy: la columna **`ConditionalAccessPolicies`** en las tablas **`SignInLogs`** o **`AADNonInteractiveUserSignInLogs`**, con la acción de dejar de ingerir esa columna.
 
 > [!warning] Advertencia de la documentación
 > Antes de tocar planes de ingesta, asegúrate de tener claros los límites de tu plan y de que las tablas afectadas **no se estén ingiriendo por motivos de cumplimiento normativo u otras razones similares**. Que una tabla no alimente detecciones no significa que la puedas apagar: puede que la ley te obligue a conservarla.
 
-#### 2.4 Threat-based recommendations (basadas en amenazas)
+#### 2.5 Threat-based recommendations (basadas en amenazas)
 
 También llamadas **coverage optimization**. Se apoyan en la investigación de seguridad de Microsoft: analizan **los logs que ingieres y las analytics rules que tienes activadas**, y los comparan contra **los logs y detecciones que harían falta para cubrir tipos de ataque concretos**.
 
@@ -223,7 +344,7 @@ Consideran **tanto las detecciones predefinidas como las que hayas creado tú**.
 | Las plantillas están activadas, pero **faltan fuentes de datos** | Conectar nuevas fuentes de datos |
 | **No hay ni detecciones ni fuentes de datos** | Conectar detecciones y fuentes de datos, o instalar una solución completa |
 
-#### 2.5 AI MITRE ATT&CK tagging recommendations (Preview)
+#### 2.6 AI MITRE ATT&CK tagging recommendations (Preview)
 
 **MITRE ATT&CK** es un catálogo público y estandarizado de **tácticas** (el objetivo del atacante: acceso inicial, persistencia, exfiltración…) y **técnicas** (el método concreto). Etiquetar tus detecciones con tácticas y técnicas de ATT&CK es lo que permite ver, en el blade de MITRE que trabajaste el Día 4, qué partes de la matriz cubres y cuáles tienes en blanco.
 
@@ -234,7 +355,7 @@ Se puede aplicar de **tres formas**:
 - Aplicarla a **todas las analytics rules del workspace**.
 - **No aplicarla** a ninguna.
 
-#### 2.6 Risk-based recommendations (Preview)
+#### 2.7 Risk-based recommendations (Preview)
 
 Parten de escenarios de seguridad del mundo real asociados a **riesgos de negocio**, no a técnicas de ataque. Los cinco tipos de riesgo que contempla: **operacional, financiero, reputacional, de cumplimiento y legal**.
 
@@ -242,7 +363,7 @@ El mecanismo es análogo al de threat-based (comparar logs y reglas contra lo ne
 
 **La diferencia de examen entre threat-based y risk-based:** threat-based razona desde *el ataque* ("¿estoy cubierto contra ransomware?"); risk-based razona desde *el daño al negocio* ("¿estoy cubierto contra escenarios que me generen pérdida financiera o incumplimiento legal?").
 
-#### 2.7 Similar organizations recommendations
+#### 2.8 Similar organizations recommendations
 
 Usa **machine learning** (aprendizaje automático) para identificar tablas que **no tienes en tu workspace pero sí usan organizaciones con tendencias de ingesta y perfil de industria parecidos al tuyo**. Te muestra cómo las usan y recomienda las fuentes de datos y reglas relacionadas.
 
@@ -252,19 +373,31 @@ Usa **machine learning** (aprendizaje automático) para identificar tablas que *
 - No todos los workspaces reciben estas recomendaciones — solo si el modelo encuentra similitudes significativas. Los SOC **en fase temprana o de onboarding** son más propensos a recibirlas que los maduros.
 - **Privacidad:** los modelos **nunca acceden ni analizan el contenido de los logs del cliente ni los ingieren**. Se basan únicamente en **OII (Organizational Identifiable Information)** y metadatos del sistema; no se expone ningún dato de cliente ni información personal (**EUII**, *End User Identifiable Information*).
 
+#### 2.9 Ejemplo concreto de escenario SOC
+
+**Escenario:** tu workspace lleva tres meses conectado. SOC optimization te muestra una recomendación *threat-based*: "tienes conectado Microsoft Entra ID Protection pero no hay ninguna analytics rule activa para detectar viajes imposibles (*impossible travel*)". Activas la plantilla correspondiente, ajustas el umbral de distancia/tiempo a tu organización, y la cobertura de esa amenaza pasa de "sin detección" a "cubierta".
+
+**Trampa de examen:** si el enunciado menciona "recomendaciones basadas en lo que hacen organizaciones similares a la mía", es **similar organizations**, no *threat-based* (que compara contra ataques conocidos, no contra otras empresas).
+
+**Enlace a nota de concepto:** [[Conceptos/SOC optimization]]
+
 ---
 
 ### 3. Roles y permisos de Microsoft Sentinel
 
 Este objetivo ("Specify Microsoft Sentinel roles") **no estaba asignado a ningún día en la guía del vault**, y además el simulacro del 23 de julio te cazó justo aquí (error #2: el rol *Microsoft Sentinel Automation Contributor* va sobre el **resource group** del playbook, no sobre el playbook individual). Lo cubro completo.
 
-#### 3.1 Qué es RBAC
+#### 3.1 Qué es RBAC, desde cero
 
 **RBAC (Role-Based Access Control)** — control de acceso basado en roles — es el modelo de permisos: en lugar de dar permisos sueltos a cada persona, se definen **roles** (paquetes de permisos) y se **asignan** a usuarios, grupos o aplicaciones **sobre un ámbito** (*scope*): una suscripción entera, un resource group o un recurso individual. Un permiso siempre es la combinación de las tres cosas: **quién + qué rol + sobre qué ámbito**.
 
+**Por qué existe:** sin RBAC, cada permiso se otorgaría uno por uno a cada persona, lo cual es lento y propenso a errores (¿le di a este analista permiso para ver incidentes pero se me olvidó revocárselo cuando cambió de equipo?). Con roles predefinidos, das o quitas un paquete completo de permisos de una sola vez, y puedes auditar quién tiene qué rol sobre qué ámbito.
+
 Microsoft Sentinel usa **dos sistemas de RBAC distintos** según la pieza:
-- **Azure RBAC** para el **SIEM** de Microsoft Sentinel (lo clásico: workspace, reglas, incidentes, workbooks).
+- **Azure RBAC** para el **SIEM** de Microsoft Sentinel (lo clásico: workspace, reglas, incidentes, workbooks). SIEM son las siglas de *Security Information and Event Management* — el sistema central que recolecta, correlaciona y analiza los eventos de seguridad de toda la organización, que es justamente lo que trabajaste desde el Día 1.
 - **Microsoft Entra ID RBAC** para el **data lake** de Microsoft Sentinel (la capa de almacenamiento barato y masivo que viste el Día 1).
+
+🔗 Nota de concepto: [[Conceptos/RBAC]]
 
 #### 3.2 Los cinco roles integrados de Microsoft Sentinel
 
@@ -289,7 +422,7 @@ Matriz de tareas concretas (así es como el examen lo pregunta):
 \* Sí puede si se le añade además el rol **Workbook Contributor**.
 
 **Observa dos cosas que el examen explota:**
-1. **Ningún rol de Sentinel puede crear o editar playbooks.** Para eso hace falta **Logic App Contributor**, que es un rol de Azure Logic Apps, no de Sentinel. Recuerda del Día 6: un playbook *es* una Logic App.
+1. **Ningún rol de Sentinel puede crear o editar playbooks.** Para eso hace falta **Logic App Contributor**, que es un rol de Azure Logic Apps, no de Sentinel. Recuerda del Día 6: un playbook *es* una Logic App — por eso su rol de edición vive fuera del catálogo de roles de Sentinel.
 2. **Sentinel Contributor no ejecuta playbooks.** Ejecutarlos requiere **Playbook Operator** (o Logic App Contributor). Ser "el rol más alto de Sentinel" no implica poder correr automatización.
 
 #### 3.3 El ámbito correcto: resource group
@@ -312,6 +445,27 @@ Si en cambio asignas los roles **directamente al workspace** de Sentinel, tienes
 > [!important] Tu error del simulacro, explicado
 > Sentinel usa una **cuenta de servicio especial** (no tu cuenta de usuario) para ejecutar los playbooks de trigger de incidente, ya sea manualmente o llamados desde una automation rule. Se hace así deliberadamente, para elevar el nivel de seguridad del servicio. Para que una automation rule pueda ejecutar un playbook, **esa cuenta debe tener permisos explícitos sobre el resource group donde reside el playbook**. Y ojo con la consecuencia: **a partir de ese momento, cualquier automation rule puede ejecutar cualquier playbook de ese resource group**. Por eso el ámbito es el resource group y no el playbook individual — y por eso, si quieres aislar playbooks sensibles, tienes que ponerlos en un resource group aparte.
 
+```mermaid
+sequenceDiagram
+    participant Analista as Analista (crea la automation rule)
+    participant Owner as Cuenta con rol Owner
+    participant RG as Resource group del playbook
+    participant SvcAcct as Cuenta de servicio de Sentinel
+    participant AR as Automation rule
+    participant PB as Playbook (Logic App)
+
+    Analista->>AR: Crea automation rule con acción "Run playbook"
+    Note over AR,PB: Playbook aparece en gris — no seleccionable todavía
+    Owner->>RG: Otorga a la cuenta de servicio<br/>el rol Microsoft Sentinel Automation Contributor
+    RG-->>SvcAcct: Permiso concedido sobre TODO el resource group
+    Analista->>AR: Ahora sí puede seleccionar el playbook
+    Note right of SvcAcct: A partir de aquí, cualquier automation rule<br/>puede ejecutar cualquier playbook de este resource group
+    AR->>SvcAcct: Incidente dispara la regla
+    SvcAcct->>PB: Ejecuta el playbook (no la cuenta del analista)
+```
+
+*Este es el flujo exacto de tu fallo del simulacro: el permiso no va al playbook individual ni a la cuenta del analista — va a la cuenta de servicio, sobre el resource group completo.*
+
 > [!warning] Las asignaciones de rol son acumulativas
 > Un usuario con **Microsoft Sentinel Reader** *y* **Contributor** tiene los permisos de Contributor, no los de Reader. Quitar permisos exige quitar la asignación, no añadir un rol más restrictivo encima. Esto choca con la intuición y el examen lo aprovecha.
 
@@ -330,6 +484,22 @@ Conceden accesos más amplios que incluyen tu workspace de Sentinel:
 | **Ingenieros de seguridad** | Microsoft Sentinel Contributor | El de Sentinel | Gestionar incidentes, contenido, recursos |
 | | Logic App Contributor | El de Sentinel / el del playbook | Ejecutar y modificar playbooks |
 | **Service Principal** | Microsoft Sentinel Contributor | El de Sentinel | Tareas de gestión automatizadas |
+
+```mermaid
+flowchart TD
+    Start(["¿Qué rol de Sentinel necesito?"]) --> Q1{"¿Solo necesitas<br/>VER datos/incidentes/workbooks?"}
+    Q1 -->|"Sí"| R1["Microsoft Sentinel Reader"]
+    Q1 -->|"No"| Q2{"¿Necesitas además<br/>GESTIONAR incidentes<br/>(asignar, resolver, clasificar)?"}
+    Q2 -->|"Sí, y nada más"| R2["Microsoft Sentinel Responder"]
+    Q2 -->|"No"| Q3{"¿Necesitas CREAR/EDITAR<br/>recursos (reglas, workbooks,<br/>Content hub)?"}
+    Q3 -->|"Sí"| R3["Microsoft Sentinel Contributor"]
+    Q3 -->|"No"| Q4{"¿Necesitas EJECUTAR<br/>playbooks manualmente?"}
+    Q4 -->|"Sí"| R4["Microsoft Sentinel Playbook Operator"]
+    Q4 -->|"No"| Q5{"¿Necesitas CREAR o EDITAR<br/>el playbook (la Logic App)?"}
+    Q5 -->|"Sí"| R5["Logic App Contributor<br/>(NO es un rol de Sentinel)"]
+    Q5 -->|"No"| Q6{"¿Sentinel necesita ejecutar<br/>el playbook desde una<br/>automation rule?"}
+    Q6 -->|"Sí"| R6["Microsoft Sentinel Automation Contributor<br/>— a la CUENTA DE SERVICIO,<br/>sobre el resource group del playbook"]
+```
 
 #### 3.7 Permisos del data lake de Microsoft Sentinel
 
@@ -352,15 +522,21 @@ Para restringir el acceso a datos concretos sin dar acceso al workspace entero:
 - **Table-level RBAC**: permisos por tabla.
 - **Roles personalizados**: Azure custom roles para el SIEM; roles personalizados de Defender XDR unified RBAC para el data lake.
 
+**Enlace a nota de concepto:** [[Conceptos/Roles de Microsoft Sentinel]]
+
 ---
 
 ### 4. Notificaciones por correo en Microsoft Defender XDR
 
-El objetivo del temario dice: *"Configure email notifications in Microsoft Defender XDR, including incidents, actions, and threat analytics"*. Hay varios tipos de notificación y se configuran en sitios distintos — el examen pregunta exactamente **dónde** se configura cada una.
+#### 4.1 Definición desde cero y por qué existen
 
-#### 4.1 Notificaciones de incidentes
+El objetivo del temario dice: *"Configure email notifications in Microsoft Defender XDR, including incidents, actions, and threat analytics"*. Una **notificación por correo** es, sencillamente, un mensaje automático que el portal de Defender envía a direcciones que tú configuras, cuando ocurre algo que te interesa (un incidente nuevo, una vulnerabilidad crítica) — para que tu equipo no tenga que estar mirando la pantalla del portal todo el día para enterarse.
 
-**Para qué:** avisar por correo a tu equipo cuando aparece un incidente nuevo o se actualiza uno existente, sin tener que estar mirando el portal.
+Hay **varios tipos de notificación y se configuran en sitios distintos** — el examen pregunta exactamente **dónde** se configura cada una, y esto es justo lo que falló tu P5 del retest.
+
+#### 4.2 Notificaciones de incidentes
+
+**Para qué:** avisar por correo a tu equipo cuando aparece un incidente nuevo o se actualiza uno existente.
 
 **Permiso necesario:** **Manage security settings**. Si la organización usa gestión de permisos básica, los usuarios con rol **Security Administrator** o superior pueden configurarlas. Si usa **RBAC**, solo puedes crear, editar, borrar y recibir notificaciones **de los device groups que tengas permitido gestionar**.
 
@@ -375,6 +551,9 @@ El objetivo del temario dice: *"Configure email notifications in Microsoft Defen
    - **Send only one notification per incident** — una sola notificación por incidente, en lugar de una por cada actualización.
    - **Include organization name in the email** — incluir el nombre de la organización en el correo.
    - **Include tenant-specific portal link** — incluir un enlace con el tenant ID, para entrar directo al tenant correcto (útil si gestionas varios).
+
+   ![Página de configuración de notificaciones de incidentes por correo, mostrando severidad de alerta, ámbito de device groups y opciones de contenido del correo](https://learn.microsoft.com/en-us/defender-xdr/media/m365d-notifications-incidents/incident-notif-settings.png)
+
 3. **Recipients**: añadir direcciones de correo, una a una con **Add**. Existe **Send test email** para verificar que llegan y no caen en spam.
 4. **Review rule** → **Create rule**.
 
@@ -386,7 +565,7 @@ El objetivo del temario dice: *"Configure email notifications in Microsoft Defen
 
 **Editar / borrar:** seleccionar la regla de la lista → **Edit rule**, o **Delete**. ⚠️ **Borrar una regla de notificación es permanente y no se puede deshacer.**
 
-#### 4.2 Notificaciones de vulnerabilidades
+#### 4.3 Notificaciones de vulnerabilidades — el punto que falló tu P5
 
 Vienen de **Microsoft Defender Vulnerability Management** y **se configuran en otro sitio**: portal de Defender → **Settings > Endpoints > General > Email notifications > Vulnerabilities** → **Add notification rule**.
 
@@ -406,13 +585,25 @@ También se eligen los **device groups** a los que aplica, y si incluir el nombr
 
 **Si no llegan los correos**, la documentación sugiere revisar en este orden: carpeta de correo no deseado (marcar como *Not junk*), que el producto de seguridad de correo no los esté bloqueando, y las reglas del cliente de correo que puedan estar moviéndolos.
 
-#### 4.3 Resumen de dónde se configura cada notificación
+#### 4.4 Resumen de dónde se configura cada notificación — memoriza esta tabla
 
-| Tipo de notificación | Ruta |
-|---|---|
-| **Incidentes** | Settings > **Microsoft Defender XDR** > Email notifications > pestaña **Incidents** |
-| **Vulnerabilidades** | Settings > **Endpoints** > General > Email notifications > **Vulnerabilities** |
-| **Alertas / actividad de usuarios en Microsoft 365** | **Alert policies** en el portal de Defender (mecanismo aparte de los alerts de XDR) |
+| Tipo de notificación | Ruta | Qué la dispara |
+|---|---|---|
+| **Incidentes** | Settings > **Microsoft Defender XDR** > Email notifications > pestaña **Incidents** | Severidad de alerta + device group scope |
+| **Vulnerabilidades** | Settings > **Endpoints** > General > Email notifications > **Vulnerabilities** | New vulnerability, exploit verified, new public exploit, exploit added to kit |
+| **Alertas / actividad de usuarios en Microsoft 365** | **Alert policies** en el portal de Defender (mecanismo aparte de los alerts de XDR) | Actividad de usuario específica en M365 |
+
+```mermaid
+flowchart TD
+    Start(["Necesito configurar una notificación por correo"]) --> Q1{"¿De qué es la notificación?"}
+    Q1 -->|"Incidente nuevo/actualizado"| R1["Settings > Microsoft Defender XDR ><br/>Email notifications > Incidents"]
+    Q1 -->|"Vulnerabilidad / exploit"| R2["Settings > Endpoints > General ><br/>Email notifications > Vulnerabilities"]
+    Q1 -->|"Actividad de usuario en M365"| R3["Alert policies<br/>(portal de Defender, mecanismo aparte)"]
+```
+
+*Este es exactamente el diagrama que responde a tu P5 fallada: la ruta "Endpoints" es para vulnerabilidades, no para incidentes — aunque suenen parecidas, son dos asistentes de configuración completamente separados.*
+
+**Enlace a nota de concepto:** [[Conceptos/Notificaciones de Defender XDR]]
 
 ---
 
@@ -420,11 +611,11 @@ También se eligen los **device groups** a los que aplica, y si incluir el nombr
 
 Este es el otro objetivo huérfano del temario: *"Configure alert notifications in Microsoft Defender XDR, including tuning, suppression, and correlation"*.
 
-#### 5.1 Alerta vs incidente, y qué es "correlación"
+#### 5.1 Alerta vs incidente, y qué es "correlación" — repaso completo
 
-Repaso deliberado, porque es **el punto exacto que fallaste en la P5 del quiz del Día 6**:
+Repaso deliberado, porque es **el punto exacto que fallaste en la P5 del quiz del Día 6**, y porque es la base de toda la Fase 2 (Día 8 en adelante):
 
-- Una **alerta** (*alert*) es **una señal individual**: el resultado de una actividad de detección concreta. "Este proceso hizo algo sospechoso en este dispositivo."
+- Una **alerta** (*alert*) es **una señal individual**: el resultado de una actividad de detección concreta producida por uno de los servicios de seguridad de Microsoft (Defender for Endpoint, Defender for Office 365, Defender for Identity, Defender for Cloud Apps, Sentinel, Entra ID Protection, etc.). "Este proceso hizo algo sospechoso en este dispositivo."
 - Un **incidente** (*incident*) es **el conjunto de alertas relacionadas agrupadas en una sola historia de ataque**. Defender XDR **correlaciona** automáticamente alertas de distintos productos que pertenecen al mismo ataque y las mete en un mismo incidente.
 
 Eso es la **correlación**: el mecanismo por el que múltiples alertas — de endpoint, de identidad, de correo, de apps SaaS — se agrupan en un incidente que cuenta la historia completa. Las alertas son las piezas de evidencia; el incidente es el caso.
@@ -432,11 +623,29 @@ Eso es la **correlación**: el mecanismo por el que múltiples alertas — de en
 En KQL, la traducción de esto es la regla que ya te marcaste:
 > **Alerta individual de producto → tabla `SecurityAlert`. Incidente correlacionado de Sentinel → tabla `SecurityIncident`.**
 
-**Dónde se ven las alertas:** cola de alertas en **Incidents & alerts > Alerts** del portal de Defender. Por defecto muestra las alertas **nuevas y en progreso de los últimos 7 días**, la más reciente arriba. El número total aparece junto a la barra de búsqueda y varía según los filtros aplicados. Se puede buscar por **título de la alerta o por alert ID**, y filtrar por rango de fechas personalizado.
+**Dónde se ven las alertas:** cola de alertas en **Incidents & alerts > Alerts** del portal de Defender. Por defecto muestra las alertas **nuevas y en progreso de los últimos 7 días**, la más reciente arriba.
+
+![Vista de la cola de alertas en el portal de Microsoft Defender](https://learn.microsoft.com/en-us/defender-xdr/media/investigate-alerts/alerts-page-defender.png)
+
+El número total aparece junto a la barra de búsqueda y varía según los filtros aplicados. Se puede buscar por **título de la alerta o por alert ID**, y filtrar por rango de fechas personalizado.
 
 **Filtros disponibles:** severidad, estado, categorías, origen de servicio/detección, tags, política/regla de política, tipo de alerta, nombre del producto, ID de suscripción de la alerta, entidades (activos afectados), estado de la investigación automatizada, workspace, data stream y etiqueta de confidencialidad.
 
 **Tags de sistema vs tags personalizados:** los personalizados usan fondo blanco; los de sistema, típicamente fondo rojo o negro. Los tags de sistema identifican: **el tipo de ataque** (ransomware, phishing de credenciales), **acciones automáticas** (AIR y automatic attack disruption), que **Defender Experts** está gestionando el incidente, y que hay **activos críticos** involucrados. (El etiquetado automático de activos críticos lo hace Security Exposure Management sobre dispositivos, identidades y recursos cloud.)
+
+```mermaid
+flowchart LR
+    A1["Alerta MDE<br/>(da{GUID})"] --> COR["Motor de correlación<br/>de Defender XDR"]
+    A2["Alerta MDO<br/>(fa{GUID})"] --> COR
+    A3["Alerta MDI<br/>(aa{GUID})"] --> COR
+    A4["Alerta Entra ID Protection<br/>(ad{GUID})"] --> COR
+    A5["Alerta Sentinel<br/>(sn{GUID})"] --> COR
+    COR -->|"agrupa por indicadores/cadena de ataque compartida"| INC["Incidente<br/>(historia completa del ataque)"]
+    A1 -.->|"vive en"| TAlert["Tabla SecurityAlert"]
+    INC -.->|"vive en"| TInc["Tabla SecurityIncident"]
+```
+
+*Cada alerta conserva su fila individual en `SecurityAlert`; el incidente que las agrupa es una fila (o varias, una por actualización) en `SecurityIncident`.*
 
 #### 5.2 Prefijos del alert ID según el origen — tabla de examen
 
@@ -469,9 +678,9 @@ Se obtienen por asignación de rol, de dos maneras:
 
 #### 5.4 Qué es alert tuning (antes llamado alert suppression)
 
-El problema real de un SOC: el volumen diario de alertas. El analista quiere centrarse en lo grave, pero igual tiene que triar y resolver alertas de baja prioridad, normalmente a mano.
+**Definición:** **alert tuning** (ajuste de alertas; **antes se llamaba *alert suppression*, supresión de alertas**) es una funcionalidad que permite **ocultar o resolver alertas automáticamente cuando ocurre un comportamiento esperado de la organización y se cumplen las condiciones de una regla**.
 
-**Alert tuning** (ajuste de alertas; **antes se llamaba *alert suppression*, supresión de alertas**) permite **ocultar o resolver alertas automáticamente cuando ocurre un comportamiento esperado de la organización y se cumplen las condiciones de una regla**. Reduce la cola de alertas y ahorra tiempo de triaje.
+**Por qué existe:** el problema real de un SOC es el volumen diario de alertas. El analista quiere centrarse en lo grave, pero igual tiene que triar y resolver alertas de baja prioridad, normalmente a mano. Alert tuning reduce la cola de alertas y ahorra tiempo de triaje, automatizando ese descarte cuando ya sabes que una alerta concreta es benigna y recurrente.
 
 Caso de uso típico: una aplicación interna de negocio, o una prueba de seguridad programada, dispara la misma alerta todos los días y ya sabes que es benigna.
 
@@ -485,7 +694,11 @@ Defender XDR **ya trae reglas de alert tuning integradas** que suprimen ruido de
 - **Suprimen la alerta sin afectar a otras funcionalidades** como las investigaciones de **AIR** y las **notificaciones por correo**.
 - **Si la investigación de AIR detecta actividad maliciosa o sospechosa, la alerta suprimida se reactiva.**
 
-**Dónde verlas:** portal de Defender → **System > Settings > Microsoft Defender XDR > sección Rules > Alert tuning** (o directo en `https://security.microsoft.com/securitysettings/defender/alert_suppression`). Conviene revisarlas para entender por qué ciertas alertas no aparecen en tu cola.
+**Dónde verlas:** portal de Defender → **System > Settings > Microsoft Defender XDR > sección Rules > Alert tuning** (o directo en `https://security.microsoft.com/securitysettings/defender/alert_suppression`).
+
+![Página de configuración de Alert tuning en el portal de Microsoft Defender, con la opción "Add new rule"](https://learn.microsoft.com/en-us/defender-xdr/media/investigate-alerts/alert-tuning-settings.png)
+
+Conviene revisarlas para entender por qué ciertas alertas no aparecen en tu cola. **Dato reforzado hoy:** las reglas integradas **no aplican a alertas de custom detection rules** — mismo límite que se explica en §5.7.
 
 *Nota operativa:* el **Phishing Triage Agent** de Microsoft Security Copilot **no clasifica alertas suprimidas por alert tuning**. Si lo usas, hay que desactivar la regla integrada *"Auto-Resolve - Email reported by user as malware or phish"* y cualquier regla propia que suprima esa alerta.
 
@@ -500,6 +713,16 @@ Puedes crear tus propias reglas con **una de estas tres acciones** cuando se cum
 | **Set as behavior** | Convierte las señales coincidentes en **behaviors**: no aparecen en la cola de alertas ni generan incidentes. Los datos quedan en las tablas **`BehaviorInfo` y `BehaviorEntities`** para hunting | **No soportada para alertas de Defender for Cloud ni de Defender for Office 365** |
 
 El matiz que distingue las tres: *Hide* esconde pero no crea incidente y solo va en MDE; *Resolve* sí crea la alerta pero ya cerrada; *Set as behavior* la degrada a un dato consultable que ni siquiera es alerta. **En los tres casos el dato sigue siendo consultable en alguna tabla** — tunear no borra evidencia.
+
+```mermaid
+flowchart TD
+    Start(["Quiero silenciar una alerta recurrente benigna.<br/>¿Qué acción de alert tuning uso?"]) --> Q1{"¿Es una alerta de<br/>Defender for Endpoint<br/>y NO quiero que<br/>se cree ningún incidente?"}
+    Q1 -->|"Sí"| R1["Hide alert<br/>(dato en AlertInfo/AlertEvidence)"]
+    Q1 -->|"No, o no es MDE"| Q2{"¿Quiero que la alerta<br/>y su incidente EXISTAN<br/>pero ya cerrados?"}
+    Q2 -->|"Sí"| R2["Resolve alert<br/>(sin restricción de producto)"]
+    Q2 -->|"No"| Q3{"¿Quiero que ni siquiera<br/>sea una alerta,<br/>solo un dato para hunting?<br/>(no vale para MDC ni MDO)"}
+    Q3 -->|"Sí"| R3["Set as behavior<br/>(dato en BehaviorInfo/BehaviorEntities)"]
+```
 
 #### 5.7 Cómo se construyen las condiciones
 
@@ -522,9 +745,14 @@ Las reglas de alert tuning se basan en **tipos de evidencia**: archivos, proceso
 > - **El título de la alerta (*Name*) se basa en el tipo de alerta (`IoaDefinitionId`)**, que es lo que decide el título. Dos alertas del mismo tipo pueden acabar con títulos distintos.
 > - **La supresión de alertas NO es compatible con custom detections.** Si una custom detection genera falsos positivos, no la silencias con alert tuning: hay que **afinar la propia custom detection**.
 
+**Enlace a nota de concepto:** [[Conceptos/Alert tuning]]
+
 #### 5.8 Gestionar y clasificar una alerta
 
 Desde **Manage alert** en la página de la alerta puedes ver o especificar:
+
+![Panel "Manage alert" en el portal de Microsoft Defender, mostrando estado, usuario asignado, clasificación y comentario](https://learn.microsoft.com/en-us/defender-xdr/media/investigate-alerts/alerts-ss-alerts-manage.png)
+
 - **Estado**: New, In progress, Resolved.
 - **Usuario asignado**.
 - **Clasificación**:
@@ -538,11 +766,17 @@ Desde **Manage alert** en la página de la alerta puedes ver o especificar:
 
 **Gestión en lote:** desde el cuadro **INSIGHT** de una alerta, **View similar alerts** permite clasificar de golpe todas las relacionadas. Y si alertas similares ya se clasificaron antes, la pestaña **Recommendations** propone los siguientes pasos y consejos de investigación, remediación y prevención basándose en cómo se resolvieron.
 
+**Ejemplo concreto:** un pentest autorizado ejecuta técnicas de movimiento lateral en un entorno de prueba durante una semana programada. Cada alerta que dispara es *técnicamente correcta* (detectó exactamente lo que el pentester hizo), pero *no es una amenaza real*. La clasificación correcta es **Informational, expected activity**, no *False positive* — porque si mañana un atacante real usa la misma técnica, quieres que la alerta se siga generando y se te siga mostrando, algo que sí ocurre con *Informational* pero que con *False positive* corre el riesgo de entrenar al sistema para ignorarla.
+
 #### 5.9 Alert service settings
 
 **Settings > Microsoft Defender XDR > Alert service settings** (también accesible desde la página **Incidents**) permite configurar los ajustes de alerta por servicio.
 
-Dato reciente a tener en el radar: desde el **11 de diciembre de 2025** se desplegaron en public preview opciones de configuración ampliadas para las alertas de **Microsoft Entra ID Protection**, con control más granular sobre el alertado basado en riesgo. **El valor por defecto nuevo es *High-risk detections only***, y se puede cambiar a *High + Medium* o *All detections*. Es decir: por defecto **no recibes alertas de riesgo medio ni bajo de Entra ID Protection** salvo que lo cambies — justo el tipo de detalle que el examen convierte en escenario ("el analista no ve alertas de riesgo medio, ¿por qué?").
+Dato reciente a tener en el radar: desde el **11 de diciembre de 2025** se desplegaron en public preview opciones de configuración ampliadas para las alertas de **Microsoft Entra ID Protection**, con control más granular sobre el alertado basado en riesgo. **El valor por defecto nuevo es *High-risk detections only***, y se puede cambiar a *High + Medium* o *All detections*.
+
+![Configuración de alertas de Microsoft Entra ID Protection en Alert service settings, mostrando el nivel de riesgo que dispara la alerta](https://learn.microsoft.com/en-us/defender-xdr/media/investigate-alerts/alert-service-settings-entra.png)
+
+Es decir: por defecto **no recibes alertas de riesgo medio ni bajo de Entra ID Protection** salvo que lo cambies — justo el tipo de detalle que el examen convierte en escenario ("el analista no ve alertas de riesgo medio, ¿por qué?").
 
 ---
 
@@ -562,9 +796,9 @@ Queda **un objetivo del Dominio 1 que se cubre más adelante por afinidad temát
 
 ---
 
-### 7. 📋 Replanteamiento del temario (verificado hoy, 29-jul-2026)
+### 7. 📋 Replanteamiento del temario (verificado el 29-jul-2026)
 
-Verifiqué hoy el skills outline oficial. **La página dice "Skills measured as of July 28, 2026"** — el temario nuevo ya está vigente, desde ayer.
+Verifiqué el skills outline oficial ese día. **La página dice "Skills measured as of July 28, 2026"** — el temario nuevo ya estaba vigente, desde el día anterior.
 
 #### 7.1 Lo que se confirma
 
@@ -582,22 +816,22 @@ Los temas nuevos que ya teníamos identificados aparecen efectivamente en el out
 | Create and manage **Summary rule tables** | Dominio 3 | Día 17 |
 | Hunt by using Notebooks, **including connection to the Sentinel MCP Server** | Dominio 3 | Día 17 |
 
-#### 7.2 Lo que hay que corregir en el plan
+#### 7.2 Lo que hubo que corregir en el plan
 
-**a) Dos objetivos del Dominio 1 no estaban asignados a ningún día.** Ya resuelto: los cubrí hoy.
+**a) Dos objetivos del Dominio 1 no estaban asignados a ningún día.** Ya resuelto: se cubrieron en esta lección.
 - *Specify Microsoft Sentinel roles* → §3 de esta lección.
 - *Configure alert notifications in Microsoft Defender XDR, including tuning, suppression, and correlation* → §5 de esta lección.
 
 **b) El perfil de audiencia ahora exige familiaridad con "AI agents and Copilots".** Es un cambio de encuadre, no un objetivo suelto, pero refuerza que el bloque de Copilot embebido del Día 13 y el MCP Server del Día 17 **no son opcionales**.
 
-**c) Matiz sobre analytics rules.** El outline enumera hoy *"scheduled, near-real time (NRT), threat intelligence, and machine learning"*. **Ya no nombra "Fusion" explícitamente**, aunque Fusion sigue siendo el motor de machine learning correspondiente. Estudia el concepto por su función (correlación multi-etapa basada en ML), no solo por el nombre comercial.
+**c) Matiz sobre analytics rules.** El outline enumera *"scheduled, near-real time (NRT), threat intelligence, and machine learning"*. **Ya no nombra "Fusion" explícitamente**, aunque Fusion sigue siendo el motor de machine learning correspondiente. Estudia el concepto por su función (correlación multi-etapa basada en ML), no solo por el nombre comercial.
 
 **d) SOC optimization tiene más tipos de recomendación de los que recoge la guía del vault.** `GUIA_INTENSIVA_24_DIAS.md` menciona solo *coverage* y *data value*. La documentación actual añade **AI MITRE ATT&CK tagging (Preview)**, **risk-based recommendations (Preview)** y **similar organizations recommendations** — todo cubierto en §2 de hoy.
 
 > [!note] Nota metodológica
-> El bloque del change log que devuelve la página al consultarla programáticamente llega **truncado**: muestra las filas de *Audience profile* y de los tres sub-bloques de *Respond to security incidents*, pero **no las filas de *Manage a security operations environment* ni de *Perform threat hunting***. La comparación de arriba la hice contrastando el outline completo actual contra el mapeo del vault, no contra esas filas del change log. Si quieres el detalle oficial fila por fila, conviene abrir la página del study guide a mano y mirar la tabla completa: [Study guide for Exam SC-200](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-200).
+> El bloque del change log que devuelve la página al consultarla programáticamente llega **truncado**: muestra las filas de *Audience profile* y de los tres sub-bloques de *Respond to security incidents*, pero **no las filas de *Manage a security operations environment* ni de *Perform threat hunting***. La comparación de arriba se hizo contrastando el outline completo actual contra el mapeo del vault, no contra esas filas del change log. Si quieres el detalle oficial fila por fila, conviene abrir la página del study guide a mano y mirar la tabla completa: [Study guide for Exam SC-200](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-200).
 
-**No se ha editado `GUIA_INTENSIVA_24_DIAS.md`** con estos hallazgos, salvo el cronograma (que sí actualicé a petición tuya). Los mapeos de contenido de la guía siguen como estaban — dime si quieres que los corrija también.
+**No se ha editado `GUIA_INTENSIVA_24_DIAS.md`** con estos hallazgos, salvo el cronograma (ya actualizado en su momento). Los mapeos de contenido de la guía siguen como estaban.
 
 ---
 
@@ -610,11 +844,11 @@ Los temas nuevos que ya teníamos identificados aparecen efectivamente en el out
 **Checklist del lab de hoy:**
 
 1. **Workbook desde plantilla.** Abre **Threat management > Workbooks > Templates**. Elige una plantilla y **antes de guardarla, lee el campo `Required data types`** y comprueba si tienes esa tabla. Guárdala, ábrela y edita al menos un elemento.
-2. **Workbook desde cero.** **Add workbook > Edit**. Añade un bloque de texto y una consulta con **Data source = Logs**, **Resource type = Log Analytics**. Usa la consulta *week over week* de §1.10 sobre `SecurityEvent` (tienes datos ahí desde el lab del Día 2). Añade un parámetro **TimeRange** y comprueba que las gráficas reaccionan al cambiarlo.
+2. **Workbook desde cero.** **Add workbook > Edit**. Añade un bloque de texto y una consulta con **Data source = Logs**, **Resource type = Log Analytics**. Usa la consulta *week over week* de §1.11 sobre `SecurityEvent` (tienes datos ahí desde el lab del Día 2). Añade un parámetro **TimeRange** y comprueba que las gráficas reaccionan al cambiarlo.
 3. **Auto refresh.** Actívalo a 5 minutos, cierra el workbook, vuelve a abrirlo y **confirma que se desactivó solo** — es el comportamiento documentado.
 4. **SOC optimization.** Entra en la sección de SOC optimization de tu workspace y revisa qué recomendaciones te salen. Con un workspace joven como el tuyo, lo esperable son recomendaciones de **cobertura** (te faltan detecciones y fuentes) y quizá de **similar organizations**, precisamente porque los SOC en onboarding son los que más las reciben.
 5. **Roles.** En el portal de Azure, ve al **resource group** de tu workspace → **Access control (IAM)** → **Role assignments**, y localiza los roles `Microsoft Sentinel *`. **No cambies nada**: solo verifica en qué ámbito están asignados y contrástalo con la tabla de §3.6.
-6. **Notificaciones de incidentes.** En el portal de Defender, recorre **Settings > Microsoft Defender XDR > Email notifications > Incidents** y abre el asistente de creación de regla hasta la pantalla de **Recipients** para ver todos los ajustes en vivo. Puedes cancelar sin crearla.
+6. **Notificaciones de incidentes.** En el portal de Defender, recorre **Settings > Microsoft Defender XDR > Email notifications > Incidents** y abre el asistente de creación de regla hasta la pantalla de **Recipients** para ver todos los ajustes en vivo. Puedes cancelar sin crearla. **Refuerzo dirigido:** ahora ve también a **Settings > Endpoints > General > Email notifications > Vulnerabilities** y compara los dos asistentes lado a lado — es la comparación exacta que te faltó en la P5.
 7. **Alert tuning.** Ve a **Settings > Microsoft Defender XDR > Rules > Alert tuning** y **lee las reglas integradas** que trae tu tenant. Identifica al menos una y razona qué ruido concreto está suprimiendo.
 
 > [!warning] Recordatorio de crédito Azure
@@ -624,7 +858,7 @@ Los temas nuevos que ya teníamos identificados aparecen efectivamente en el out
 
 ## 🎯 Quiz del día
 
-Cinco preguntas. Responde antes de abrir el bloque de respuestas.
+Cinco preguntas. Responde antes de abrir el bloque de respuestas. **Las preguntas y la clave no cambiaron** respecto a la versión original de esta lección — solo se ampliaron las explicaciones.
 
 **1.** Un analista con el rol **Microsoft Sentinel Contributor** asignado sobre el resource group del workspace intenta crear un nuevo workbook y no puede guardarlo. ¿Cuál es la causa más probable?
 
@@ -662,15 +896,15 @@ Cinco preguntas. Responde antes de abrir el bloque de respuestas.
 - D) Las notificaciones de incidentes se configuran en **Settings > Endpoints > General > Email notifications**, así que la regla revisada no aplica
 
 > [!note]- Ver respuestas
-> **1 → D.** Crear o eliminar workbooks exige **la combinación** de *Microsoft Sentinel Contributor* (o un rol de Sentinel menor) **y** *Workbook Contributor* sobre el resource group. Un rol de Sentinel por sí solo no basta. **A** es falso: se pueden crear desde ambos portales (lo que sí es exclusivo del portal de Azure es imprimir/guardar como PDF y algunas visualizaciones). **B** es incorrecto: Playbook Operator sirve para ejecutar playbooks, nada que ver con workbooks. **C** describe mal el rol: Sentinel Contributor sí crea y edita recursos — su límite aquí es específicamente el de workbooks.
+> **1 → D.** Crear o eliminar workbooks exige **la combinación** de *Microsoft Sentinel Contributor* (o un rol de Sentinel menor) **y** *Workbook Contributor* sobre el resource group. Un rol de Sentinel por sí solo no basta — este es exactamente el diagrama de decisión de §1.4: "crear" no es un peldaño más alto de un único rol, son dos roles distintos que se suman. **A** es falso: se pueden crear desde ambos portales (lo que sí es exclusivo del portal de Azure es imprimir/guardar como PDF y algunas visualizaciones). **B** es incorrecto: Playbook Operator sirve para ejecutar playbooks, nada que ver con workbooks. **C** describe mal el rol: Sentinel Contributor sí crea y edita recursos — su límite aquí es específicamente el de workbooks, que exigen el rol adicional de Azure Monitor Workbooks.
 >
 > **2 → B.** **Hide alert** es la única acción que suprime la alerta **e impide la creación del incidente**, y las alertas ocultas **siguen existiendo en `AlertInfo` y `AlertEvidence`**, así que el dato queda disponible para hunting. Es aplicable solo a alertas de Defender for Endpoint, que es justo el caso del enunciado. **A** falla porque *Resolve alert* sí genera la alerta y el incidente, solo que ya con estado resuelto. **C** falla porque clasificar es una acción manual sobre una alerta ya existente, no una regla que actúe automáticamente hacia adelante. **D** invierte la restricción: *Set as behavior* no está soportada para Defender for Cloud ni Defender for Office 365, pero **sí** para Defender for Endpoint; aun así no es la mejor respuesta porque el enunciado pide expresamente impedir el incidente y conservar el dato, que es la definición de *Hide alert*.
 >
 > **3 → A.** Esa combinación de acciones — activar plantillas **o** pasar a **basic logs** — corresponde exactamente a la tabla que **no usan las detecciones pero sí usan workbooks, log queries o hunting queries**: como algo la consume, la opción es abaratarla, no eliminarla. **B** es distinto: si no se usó en absoluto, la alternativa es **dejar de ingerir y eliminar la tabla o mover a retención a largo plazo**. **C** también es distinto: si solo la usó Azure Monitor, la alternativa es **mover a un workspace de Log Analytics no dedicado a seguridad**. **D** es directamente falso: si una tabla está elegida para UEBA o para una regla de matching de threat intelligence, SOC optimization **no recomienda ningún cambio de ingesta** sobre ella.
 >
-> **4 → C.** Sentinel usa una **cuenta de servicio especial** para ejecutar playbooks de trigger de incidente, y esa cuenta necesita **permisos explícitos sobre el resource group donde reside el playbook**. Para otorgarlos tú necesitas ser **Owner**. Consecuencia a recordar: una vez otorgados, **cualquier automation rule puede ejecutar cualquier playbook de ese resource group**. **A** confunde el sujeto (los permisos van a la cuenta de servicio, no al usuario creador) y el ámbito (resource group, no playbook individual). **B** asigna el rol equivocado sobre el recurso equivocado. **D** es falso: el playbook puede vivir en otro resource group, solo hay que dar los permisos correctos.
+> **4 → C.** Sentinel usa una **cuenta de servicio especial** para ejecutar playbooks de trigger de incidente, y esa cuenta necesita **permisos explícitos sobre el resource group donde reside el playbook**. Para otorgarlos tú necesitas ser **Owner**. Consecuencia a recordar: una vez otorgados, **cualquier automation rule puede ejecutar cualquier playbook de ese resource group** — es el diagrama de secuencia de §3.4. **A** confunde el sujeto (los permisos van a la cuenta de servicio, no al usuario creador) y el ámbito (resource group, no playbook individual). **B** asigna el rol equivocado sobre el recurso equivocado. **D** es falso: el playbook puede vivir en otro resource group, solo hay que dar los permisos correctos.
 >
-> **5 → B.** Los dos ajustes que filtran qué genera notificación son **Alert severity** (qué severidades disparan el aviso) y **Device group scope** (todos los device groups o una selección). Si la severidad está limitada a *High*, los incidentes de severidad media no notifican. **A** es irrelevante: *Include tenant-specific portal link* solo añade un enlace con el tenant ID al cuerpo del correo. **C** invierte el comportamiento documentado: los destinatarios nuevos **sí** empiezan a recibir notificaciones a partir de que se añaden; lo que no reciben son los incidentes anteriores. **D** confunde rutas: en *Settings > Endpoints > General > Email notifications* se configuran las notificaciones de **vulnerabilidades**, no las de incidentes.
+> **5 → B.** Los dos ajustes que filtran qué genera notificación son **Alert severity** (qué severidades disparan el aviso) y **Device group scope** (todos los device groups o una selección). Si la severidad está limitada a *High*, los incidentes de severidad media no notifican. **A** es irrelevante: *Include tenant-specific portal link* solo añade un enlace con el tenant ID al cuerpo del correo. **C** invierte el comportamiento documentado: los destinatarios nuevos **sí** empiezan a recibir notificaciones a partir de que se añaden; lo que no reciben son los incidentes anteriores. **D** confunde rutas — es exactamente el hueco de mapa que mediste en tu retest del 9-ago: en *Settings > Endpoints > General > Email notifications* se configuran las notificaciones de **vulnerabilidades**, no las de incidentes. Y además **D** contradice el propio enunciado, que ya dice que estabas mirando la ruta correcta de incidentes.
 
 ---
 
@@ -678,7 +912,7 @@ Cinco preguntas. Responde antes de abrir el bloque de respuestas.
 
 1. **Workbook ≠ playbook.** Visualizar/reportar → workbook. Ejecutar una acción → playbook. Es tu fallo repetido: verbo delator en el enunciado.
 2. **Guardar un workbook guarda solo el JSON**, nunca los datos. No duplica almacenamiento ni ingesta.
-3. **Crear workbooks pide dos roles**: un rol de Sentinel **+ Workbook Contributor**.
+3. **Crear workbooks pide dos roles**: un rol de Sentinel **+ Workbook Contributor**. Tu P1 del retest.
 4. **Ningún rol de Sentinel crea o edita playbooks** — eso es **Logic App Contributor**. Y **Sentinel Contributor no los ejecuta** — eso es **Playbook Operator**.
 5. **Automation rule → playbook: permisos sobre el resource group del playbook, a la cuenta de servicio.** Nunca sobre el playbook suelto.
 6. **Las asignaciones de rol son acumulativas.** Añadir un rol restrictivo no quita permisos.
@@ -687,7 +921,7 @@ Cinco preguntas. Responde antes de abrir el bloque de respuestas.
 9. **Threat-based razona desde el ataque; risk-based razona desde el daño al negocio** (operacional, financiero, reputacional, cumplimiento, legal).
 10. **Hide alert es solo de Defender for Endpoint**; **Set as behavior no va en Defender for Cloud ni Defender for Office 365**.
 11. **Alert suppression no funciona con custom detections** — ahí hay que afinar la propia detección.
-12. **Notificaciones de incidentes** → Settings > **Microsoft Defender XDR**. **Notificaciones de vulnerabilidades** → Settings > **Endpoints**. Rutas distintas.
+12. **Notificaciones de incidentes** → Settings > **Microsoft Defender XDR**. **Notificaciones de vulnerabilidades** → Settings > **Endpoints**. Rutas distintas. Tu P5 del retest.
 13. **Informational, expected activity ≠ False positive.** La primera es una alerta correcta sobre actividad benigna; la segunda es una alerta incorrecta.
 14. **Alerta individual de producto → `SecurityAlert`. Incidente correlacionado de Sentinel → `SecurityIncident`.** (Y `SecurityIncident` guarda **una fila por actualización**: usa `summarize arg_max(LastModifiedTime, *) by IncidentNumber` para el estado final.)
 
@@ -700,9 +934,11 @@ Cinco preguntas. Responde antes de abrir el bloque de respuestas.
 - [[Dia 05 - Configuracion Avanzada de MDE ASR Rules Advanced Features Device Groups y Custom Data Collection]] — device groups, que son el ámbito de las notificaciones y del alert tuning
 - [[Dia 04 - Detecciones Sentinel Analytics Rules y Anomalias]] — analytics rules y MITRE, que es lo que SOC optimization evalúa
 - [[Dia 01 - Arquitectura Sentinel y Tiers de Retencion]] — workspace, tiers y data lake
+- [[Dia 08 - Incidentes Unificados y Case Management]] — continúa directamente desde la correlación alerta→incidente de §5.1
+- [[Conceptos/Workbook]] · [[Conceptos/SOC optimization]] · [[Conceptos/RBAC]] · [[Conceptos/Roles de Microsoft Sentinel]] · [[Conceptos/Alert tuning]] · [[Conceptos/ASIM]] · [[Conceptos/Content hub]] · [[Conceptos/Notificaciones de Defender XDR]]
 - [[GUIA_INTENSIVA_24_DIAS]] · [[TRACKER_TUTOR]] · [[CHEATSHEET_KQL]]
 
-## 📚 Fuentes verificadas hoy (29-jul-2026)
+## 📚 Fuentes verificadas el 29-jul-2026 (versión original de la lección)
 
 - [Study guide for Exam SC-200](https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-200) — skills measured as of July 28, 2026
 - [Visualize your data using workbooks in Microsoft Sentinel](https://learn.microsoft.com/en-us/azure/sentinel/monitor-your-data) — doc actualizado 24-jun-2026
@@ -712,3 +948,14 @@ Cinco preguntas. Responde antes de abrir el bloque de respuestas.
 - [Configure vulnerability email notifications](https://learn.microsoft.com/en-us/defender-endpoint/configure-vulnerability-email-notifications) — doc actualizado 29-jul-2026
 - [Investigate alerts in Microsoft Defender XDR](https://learn.microsoft.com/en-us/defender-xdr/investigate-alerts) — doc actualizado 28-jul-2026
 - [Go to the Action center](https://learn.microsoft.com/en-us/defender-xdr/m365d-action-center) — doc actualizado 6-jul-2026
+
+## 📚 Fuentes reverificadas el 11-sep-2026 (esta reescritura)
+
+Todas re-consultadas hoy vía Microsoft Learn. **Ningún dato de la versión anterior resultó desactualizado** — se amplió el detalle, no se corrigió ningún hecho.
+
+- [Visualize your data using workbooks in Microsoft Sentinel](https://learn.microsoft.com/en-us/azure/sentinel/monitor-your-data) — `updated_at` 12-ago-2026
+- [SOC optimization reference](https://learn.microsoft.com/en-us/azure/sentinel/soc-optimization/soc-optimization-reference) — `updated_at` 3-may-2026
+- [Roles and permissions in the Microsoft Sentinel platform](https://learn.microsoft.com/en-us/azure/sentinel/roles) — `updated_at` 10-sep-2026 (la más reciente de todas las fuentes de hoy)
+- [Investigate alerts in Microsoft Defender XDR](https://learn.microsoft.com/en-us/defender-xdr/investigate-alerts) — `updated_at` 10-sep-2026
+- [Get incident notifications by email](https://learn.microsoft.com/en-us/defender-xdr/m365d-notifications-incidents) — `updated_at` 11-ago-2026
+- Capturas oficiales tomadas del HTML real de estas páginas el 11-sep-2026 (URLs verificadas con petición HTTP directa, código 200 en las 17 imágenes usadas entre esta lección y la del Día 8)
