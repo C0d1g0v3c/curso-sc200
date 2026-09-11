@@ -1,7 +1,7 @@
 ---
 tags: [sc-200, ccna, htb, plan, calendario, multitrack]
 creado: 2026-08-09
-actualizado: 2026-08-24
+actualizado: 2026-09-11
 examen_sc200: 2026-10-03
 examen_sc200_decision: confirmado definitivo el 23-ago-2026 — el alumno rechazó explícitamente la recomendación de moverlo al 24-oct (ver §7.2)
 estado: 🔴 Plan estricto — examen fijo en 3-oct, cero margen en sábados (ver §8)
@@ -50,6 +50,16 @@ Cualquier plan nuevo que vuelva a asumir ritmo diario fracasará por el mismo mo
 > respeta tal cual — esta nota no la bloquea ni la cuestiona, solo dice en voz alta el precio
 > para que quede escrito, no asumido en silencio.
 
+> [!warning] Ampliación del override — 11-sep-2026: prioridad sobre TODO, no solo universidad
+> El alumno confirmó hoy que el examen (3-oct) **no se mueve bajo ninguna circunstancia** y,
+> en vez de replanificar fechas, amplió el override de prioridad fijado el 23-ago: **el SC-200
+> pasa a tener prioridad sobre absolutamente todo** mientras dure el sprint hasta el 3-oct —
+> no solo sobre universidad/CCNA, sino también sobre **Cerberos, Argos, Atenea, Campus Connect,
+> el gimnasio y cualquier otro proyecto en curso**. Misma lógica que el 23-ago, alcance ampliado.
+> A cambio, liberó su horario: **1 hora diaria fija** de aquí al examen, con **bloques más
+> grandes cuando el día lo permita** (el propio 11-sep tuvo 3 horas). Esto reemplaza el patrón
+> de "1-1.5h entre semana + bloque grande el sábado" de §3 — ver el detalle actualizado en **§9**.
+
 > [!note] Por qué HTB sigue siendo lo que cede
 > No cambia con la jerarquía invertida: HTB no tiene fecha, no tiene instructor y no caduca.
 > Sigue en pausa desde el 22-jun, formalizada hasta el 4-oct, día siguiente del examen.
@@ -91,6 +101,12 @@ contenido nuevo aunque estén disponibles: sobra margen a propósito.
 > aprendió, y eso no se sustituye escuchando un resumen.
 
 ---
+
+> [!note] Ritmo reemplazado el 11-sep-2026 — ver §9
+> La tabla de arriba (patrón "1-1.5h entre semana + bloque grande el sábado") queda como
+> referencia histórica. El ritmo vigente de aquí al examen es **1 hora diaria fija, con
+> bloques más grandes los días que el horario liberado lo permita** — no hay ya un patrón
+> semanal fijo de qué día es cuál, se decide sesión a sesión según disponibilidad real.
 
 ## 4. Calendario
 
@@ -334,6 +350,14 @@ Un día después del Reanclaje #4, el alumno pidió invertir el orden de consumo
 
 ## 8. Calendario estricto — camino al 3-oct-2026 (fijado 23-ago)
 
+> [!danger] Divergencia real detectada el 11-sep-2026 — usa §9 para las fechas próximas
+> Esta sección asumía que los Días 16-18 y el Simulacro #2 (5-sep) ya estarían hechos para
+> hoy. La realidad, verificada contra los archivos de [[Lecciones Diarias]] y el log de git:
+> **el último día realmente impartido es el Día 15** (31-ago). Los Días 16, 17, 18 y el
+> Simulacro #2 nunca ocurrieron. El detalle día por día de abajo (§8.3) queda como
+> **referencia histórica de diseño**, no como fechas vigentes — las fechas que mandan de
+> aquí al examen están en **§9**.
+
 ### 8.1 La aritmética que lo hace posible
 
 Con solo martes/jueves/domingo + sábado (el patrón hasta esta mañana), había **17 slots de lección + 5 sábados** disponibles hasta el examen, y los 17 slots había que llenarlos casi al 100% para caber — cero margen real, y los 5 sábados no alcanzaban para los 6 bloques grandes necesarios (2 de labs + 4 simulacros), obligando a cortar uno.
@@ -434,6 +458,63 @@ Al cerrar esta semana: **deuda de labs a cero**, Dominio 2 cerrado, y el conteni
 ### 8.4 El único punto sin margen: los sábados
 
 A diferencia de las lecciones (34% de ocupación, sobra colchón), **los 5 sábados de este calendario están asignados al 100%** — no hay un sexto sábado de repuesto antes del examen. Si se cae uno, la regla sigue siendo la del Reanclaje #3: el sábado no se sacrifica, se recupera. Con los días entre semana ahora libres, recuperarlo ya no depende de "robarle tiempo a la universidad" — se puede partir el bloque perdido en 2 sesiones más cortas entre semana (ninguna de esas sesiones alcanza el bloque continuo de 2-3h que pide un lab o un simulacro completo, así que recuperar así cuesta más tiempo total, no es gratis, pero es posible). El riesgo real ya no es de calendario — es de que la intensidad de "todos los días algo de SC-200" se sostenga las seis semanas seguidas.
+
+---
+
+## 9. Reconciliación 11-sep-2026 — atraso real, override total y recalendarizado de simulacros
+
+No se ejecuta un "Reanclaje #5" formal completo (con toda la ceremonia de diagnóstico/recomendación/decisión de los reanclajes anteriores) porque no lo amerita: el examen no se mueve, ya está confirmado como definitivo, y lo único que cambia es el mapa de fechas próximas y el alcance del override. Se deja documentado aquí con la misma honestidad que las sesiones anteriores.
+
+### 9.1 El número real de atraso, sin maquillar
+
+| Medido | Plan (§8.3) asumía para hoy 11-sep | Real, verificado hoy contra archivos y git log | Diferencia |
+|---|---|---|---|
+| Lecciones impartidas | Día 21 (repaso Dominio 1+2, 7-sep) | **Día 15** (31-ago) | 6 lecciones sin dar: Días 16, 17, 18, 20, 21, y el Día 16 se cierra justo hoy |
+| Dominio 3 | Cerrado el 2-sep (Día 18) | Abierto — solo el Día 15 (arranque) está dado | Cierre sin fecha hasta que se den los Días 17-18 |
+| Simulacro #2 | Hecho el 5-sep | No hecho | 1 simulacro completo perdido, igual que el patrón de reanclajes anteriores |
+| Simulacro #3 | Agendado 12-sep (mañana) | Se hubiera medido contra temario nunca visto (Días 16-18) | Se mueve a **19-sep** — ver §9.3 |
+
+**Lectura sin adornos:** es el mismo patrón de los Reanclajes #3 y #4 — el contenido nuevo se atrasa, pero esta vez la reacción del alumno no es replanificar la fecha del examen (ya la declaró definitiva el 23-ago y la ratificó hoy), sino **ampliar el override de prioridad y liberar más horario real**. Ver §9.2.
+
+### 9.2 Override ampliado a todo, no solo a universidad
+
+El 23-ago el alumno ya había invertido la jerarquía de §2 para poner el SC-200 por encima de la universidad. Hoy, 11-sep, **amplía ese override a absolutamente todo**: Cerberos, Argos, Atenea, Campus Connect, el gimnasio y cualquier otro proyecto quedan en segundo plano mientras dure el sprint hasta el 3-oct — no se cuestiona ni se bloquea, igual que en agosto, solo se documenta el alcance real.
+
+**Contrapartida: horario liberado.** En vez del patrón fijo "1-1.5h entre semana + bloque grande el sábado" de §3, el ritmo vigente de aquí al examen es:
+
+- **1 hora diaria fija**, todos los días, sin excepción de "días prohibidos".
+- **Bloques más grandes los días que el horario lo permita** — el propio 11-sep tuvo 3 horas, usadas para dar el Día 16 completo.
+- Sin patrón semanal fijo de qué día es cuál: se decide sesión a sesión según disponibilidad real, no según una plantilla — la plantilla fija fue precisamente lo que falló tres veces.
+
+### 9.3 Simulacros: de 5 planeados a 3 reales
+
+Acordado hoy con el alumno: el Simulacro #3, agendado para mañana sábado 12-sep, se mueve al **sábado 19-sep** — justo después de cerrar el Día 18 (fin del Dominio 3), para no medir contra temario que todavía no se dio. Efecto en cadena:
+
+| Simulacro | Fecha original (§8.3) | Fecha nueva | Estado |
+|---|---|---|---|
+| Simulacro 01 (Practice Assessment oficial) | 23-jul | — | ✅ Hecho, 46% |
+| Simulacro #2 | 5-sep | — | ❌ No se hizo, no se recupera aparte — el temario que cubría (Días 16-18) se mide directo en el #3 |
+| Simulacro #3 | 12-sep | **19-sep** | Pendiente — primera medición real con Dominio 3 completo |
+| Simulacro #4 | 19-sep | **26-sep** | Pendiente |
+| Simulacro #5 | 26-sep | **No cabe** — dejaría 0 días de margen antes de la víspera del 2-oct | Se cae, no se repone |
+
+**Resultado: 3 simulacros reales antes del examen** (Simulacro 01 + #3 + #4) en vez de los 5 que preveía el Reanclaje #4 del 23-ago. Es una pérdida real de una medición — se documenta así, no se disfraza de "no importa". La compensación parcial es que la semana entre el #4 (26-sep) y la víspera (2-oct) se dedica completa a repaso dirigido por los fallos del #4, en vez de a un quinto simulacro sin margen de reacción después.
+
+### 9.4 Calendario inmediato — próximas sesiones (reemplaza el detalle día-por-día de §8.3 para este tramo)
+
+| Fecha | Qué toca |
+|---|---|
+| **Vie 11 sep** (hoy) | **Día 16** — Hunting en Sentinel: queries, bookmarks, Hunts (Livestream retirado, dato nuevo) — dado con 3h liberadas |
+| Sáb 12 sep – Dom 13 sep | **Días 17 y 18** — Data lake/KQL jobs/Summary rules/Notebooks/MCP Server (17) y KQL avanzado gamificado (18) — **cierra el Dominio 3 completo**. Uno por sesión, 1h fija + lo que el día permita |
+| Lun 14 – Vie 18 sep | Refuerzo dirigido con lo ya medido (bloque MDE, Purview, `SecurityAlert`/`SecurityIncident`, tablas de decisión) — 1h/día, sin contenido nuevo obligatorio |
+| **Sáb 19 sep** | 📊 **Simulacro #3** — primera medición real con el temario completo (Dominios 1-3 cubiertos) |
+| Dom 20 sep en adelante | Refuerzo dirigido por los fallos del Simulacro #3, con el mismo patrón de re-test espaciado ya usado en todo el curso |
+| **Sáb 26 sep** | 📊 **Simulacro #4** |
+| Dom 27 sep – Jue 1 oct | Repaso final dirigido por los fallos del #4 — sin Simulacro #5, con más margen de reacción a cambio |
+| Vie 2 oct | Víspera — solo flashcards y trampas, nada nuevo, dormir 7+ h |
+| **Sáb 3 oct** | 🎯 **EXAMEN SC-200** — fecha definitiva, no se mueve |
+
+Siguiente sesión de contenido nuevo: **Día 17**.
 
 ---
 
